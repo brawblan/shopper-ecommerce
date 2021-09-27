@@ -1,0 +1,290 @@
+@import 'defaults';
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .Center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .DesktopNav {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .NavBar {
+    width: 100%;
+    max-width: fit-content;
+    justify-content: space-between;
+    gap: 58px;
+  }
+
+  .TestDisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .Chip {
+    padding: 8px 16px;
+    width: 60px;
+    min-width: fit-content;
+    height: 34px;
+    border-radius: 24px;
+    background: $accent;
+    color: $dark;
+  }
+  .Chip.Active {
+    background: $primary;
+    color: $white;
+  }
+
+  .Badge {
+    padding: 6px;
+    width: 20px;
+    height: 20px;
+    background: $warning;
+    border-radius: 8px;
+    color: $dark;
+  }
+  .Badge.Default {
+    background: $primary;
+    color: $white;
+  }
+
+  .Button {
+    padding: 12px 20px;
+    width: 327px;
+    height: 48px;
+    background: $primary;
+    color: $white;
+    border-radius: 56px;
+    border: none;
+  }
+  .Button.Disabled {
+    color: $subtleText;
+    background: $buttonDisabled;
+  }
+
+  .Card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: unset;
+    width: 159px;
+    height: 279px;
+    border: 1px solid $accentDark;
+    box-sizing: border-box;
+    border-radius: 16px;
+  }
+
+  .CategoryHeight {
+    height: 110px;
+  }
+
+  .ProductImageContainer {
+    background: $pearl-bush;
+    border-radius: 15px 15px 0 0;
+    width: 100%;
+
+    img {
+      width: 129.9px;
+      height: 146.68px;
+      position: relative;
+      top: 10px;
+      right: -10px;
+      z-index: 0;
+    }
+    svg {
+      position: relative;
+      top: -110px;
+      right: 10px;
+    }
+  }
+
+  .ProductContent {
+    flex-direction: column;
+    justify-content: center;
+    align-items: inherit;
+    padding: 16px 12px;
+
+    .Price {
+      color: $primary;
+    }
+  }
+
+  .CategoryCard {
+    border: 1px solid $accentDark;
+    height: 152px;
+
+    .CategoryContent {
+      justify-content: flex-start;
+      z-index: 5;
+      margin: 0;
+      width: 100%;
+      height: 42px;
+      padding: 10px 16px;
+      background: $pearl-bush-acc;
+      border-radius: 0 0 16px 16px;
+    }
+  }
+
+  .CartItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    width: 335px;
+    height: 87px;
+    background: #FFFFFF;
+    border: 1px solid #E1E5EB;
+    border-radius: 20px;
+    margin: 16px 0;
+    gap: 10px;
+
+    .ItemImage {
+      background: $pearl-bush;
+      border-radius: 16px;
+      width: 67px;
+      height: 67px;
+      position: relative;
+
+
+      img {
+        width: 56px;
+        height: 56px;
+        position: relative;
+        top: 4px;
+      }
+    }
+
+    .ItemContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0;
+      width: 235px;
+      height: 67px;
+      align-self: stretch;
+
+      .BodyText {
+        margin: 0;
+      }
+
+      .ItemPriceQty {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        width: 235px;
+        height: 36px;
+        align-self: stretch;
+      }
+
+    }
+  }
+
+  .CartItemBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    background: #F5F7FA;
+    border-radius: 13px;
+    margin: 0 16px;
+  }
+
+  .BasicInput {
+    border: none;
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    text-align: left;
+    outline: none;
+  }
+  .BasicInput:focus {
+    border-radius: 16px;
+    box-shadow: 0 0 4px $warning;
+  }
+
+  .Input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid $subtleText;
+    width: 327px;
+    height: 52px;
+    background: $white;
+    box-sizing: border-box;
+    border-radius: 16px;
+    margin: 16px 0;
+    position: relative;
+
+    svg {
+      position: absolute;
+      right: 16px;
+    }
+  }
+  .Input.Success {
+    border: 1px solid $success;
+    box-shadow: 0 0 0 4px #E4FFF8;
+  }
+  .Input.Error {
+    border: 1px solid $error;
+    box-shadow: 0 0 0 4px #FFE4EC;
+  }
+
+  .Navigation {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .Navigation.Active {
+    background: $primary;
+
+    .Badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+  }
+  .Navigation > .Badge {
+    //position: absolute;
+    //top: -10px;
+    //right: -10px;
+  }
+
+  .FloatingCartInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 12px 12px 20px;
+    width: 334px;
+    height: 51px;
+    background: $primary;
+    border-radius: 16px;
+
+    div {
+      color: $white;
+    }
+
+    .Chip {
+      color: $primary;
+    }
+  }
+}

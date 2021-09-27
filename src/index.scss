@@ -1,0 +1,96 @@
+@import 'defaults';
+
+html { font-size: 20px; }
+body {
+  margin: 0 1rem;
+  padding: 0;
+  font-family: 'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+h1, h2, .TitleRegular, .TitleBold, .BodyText, .BodyTextBold, .SmallText, .Caption, .Button, .Link {
+  font-style: normal;
+  text-align: center;
+  color: $dark;
+}
+h1, h2, .BodyText, .BodyTextBold {
+  line-height: 140%;
+  letter-spacing: -0.02em;
+}
+
+.TitleRegular, .BodyText, .SmallText, .Caption {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 1.9375rem;
+}
+
+h2 {
+  font-weight: 500;
+  font-size: 1.5625rem;
+}
+
+.TitleRegular,
+.TitleBold {
+  font-size: 1.25rem;
+  line-height: 1.4375rem;
+  letter-spacing: -0.02em;
+}
+
+.BodyText,
+.BodyTextBold,
+.Button,
+.Link {
+  font-size: 1rem;
+}
+
+.BodyText,
+.SmallText {
+  margin: 4px 0;
+}
+
+.SmallText {
+  font-size: 0.8125rem;
+  line-height: 140%;
+}
+
+.Caption {
+  font-size: 0.625rem;
+  line-height: 140%;
+}
+
+.Button,
+.Link {
+  line-height: 1.1875rem;
+  letter-spacing: 0.04em;
+}
+
+.Link {
+  color: $primary;
+}
+
+h1,
+.TitleBold,
+.BodyTextBold,
+.Button,
+.Link {
+  font-weight: 600;
+}
