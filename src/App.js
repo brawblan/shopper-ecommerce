@@ -18,8 +18,9 @@ class App extends Component {
     products.fetchCommerceApiData().then(
       (res) => {
         if (res && res.res.ok) {
+          const dataArr = res.data
           this.setState({
-            productData: res.data,
+            productData: dataArr,
           })
         } else {
           return 'error'
@@ -43,7 +44,7 @@ class App extends Component {
           <Homepage productData={productData} />
         )}
 
-        {<Product data={'Hello World'} />}
+        {!display.productScreen && <Product data={'Hello World'} />}
 
         {/*<div className='TestDisplay'>*/}
         {/*  <NavigationLeaf active={true} qty={3} />*/}

@@ -1,6 +1,6 @@
 @import 'defaults';
 
-html { font-size: 20px; }
+html { font-size: 16px; }
 body {
   margin: 0 1rem;
   padding: 0;
@@ -65,6 +65,7 @@ h2 {
 .BodyText,
 .SmallText {
   margin: 4px 0;
+  text-align: left;
 }
 
 .SmallText {

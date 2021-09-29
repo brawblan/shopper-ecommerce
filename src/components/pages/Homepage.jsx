@@ -1,13 +1,12 @@
 import React from 'react'
 import style from './Homepage.module.scss'
-import ProductCard from '../organisms/ProductCard'
+import ProductContainer from '../organisms/ProductContainer'
 
 const Homepage = ({ productData }) => {
   return (
     <div className={style.Container}>
-      {productData.map((item) => (
-        <ProductCard data={item} key={item.id} />
-      ))}
+      <div className={style.HomepageIntro} />
+      <ProductContainer data={productData} />
     </div>
   )
 }

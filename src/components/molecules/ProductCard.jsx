@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductImage from '../molecules/ProductImage'
+import ProductImage from './ProductImage'
 
 const ProductCard = ({ data }) => {
   const { category, name, price, image } = data

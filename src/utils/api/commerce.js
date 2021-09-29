@@ -13,15 +13,16 @@ class CommerceAPI {
         })
         if (res.ok) {
           const json = await res.json()
-          console.log(json)
-          const data = json.data.map((item) => ({
-            id: item.id,
-            desc: item.description,
-            image: item.media.source,
-            name: item.name,
-            category: item.categories['name'],
-            price: item.price.formatted_with_symbol,
-          }))
+          const data = json.data.map((item) => {
+            return {
+              id: item.id,
+              desc: item.description,
+              image: item.media.source,
+              name: item.name,
+              price: item.price.formatted_with_symbol,
+              category: item.categories[0].name,
+            }
+          })
           success({ res, data })
         } else {
           failure({ error: 'Invalid http request' })
