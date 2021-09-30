@@ -1,10 +1,13 @@
 import React from 'react'
 import ProductImage from './ProductImage'
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, categoryDisplay, background }) => {
   const { category, name, price, image } = data
+  const display =
+    categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'
+
   return (
-    <div className='Card Center'>
+    <div className='Card Center' style={{ display: `${display}` }}>
       <ProductImage image={image} classProp={''} />
       <div className='ProductContent Center'>
         <p className='SmallText'>{category}</p>

@@ -14,9 +14,14 @@
   }
 
   .DesktopNav {
+    position: fixed;
+    top: 0;
+    margin: 0 auto 1rem;
+    padding: 0 2rem;
+    background: white;
+    z-index: 10;
     width: 100%;
     justify-content: space-between;
-    padding: 0 1rem;
   }
 
   .NavBar {
@@ -96,7 +101,7 @@
         width: 129.9px;
         height: 146.68px;
         position: relative;
-        top: 10px;
+        top: 2px;
         right: -10px;
         z-index: 0;
       }
@@ -121,6 +126,15 @@
     }
   }
 
+  .CategoryCard.AllCard {
+    div > img {
+      width: 100%;
+      right: 0;
+      top: 0;
+      border-radius: 1rem;
+    }
+  }
+
   .CategoryHeight {
     height: 110px;
   }
@@ -138,6 +152,21 @@
       padding: 10px 16px;
       background: $pearl-bush-acc;
       border-radius: 0 0 16px 16px;
+    }
+    .CategoryContent.card1 {
+      background: $pearl-bush-acc;
+    }
+    .CategoryContent.card2 {
+      background: $misty-rose-acc;
+    }
+    .CategoryContent.card3 {
+      background: $greenish-yellow-acc;
+    }
+    .CategoryContent.card4 {
+      background: $ash-acc;
+    }
+    .CategoryContent.Active {
+      background: $primary;
     }
   }
 
@@ -291,4 +320,5 @@
       color: $primary;
     }
   }
+
 }

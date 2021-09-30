@@ -46,22 +46,25 @@ class App extends Component {
 
         {!display.productScreen && <Product data={'Hello World'} />}
 
-        {/*<div className='TestDisplay'>*/}
-        {/*  <NavigationLeaf active={true} qty={3} />*/}
-        {/*  <NavigationLeaf active={false} qty={0} />*/}
-        {/*  <Chip active={true} text={'TextT'} />*/}
-        {/*  <Chip active={false} text={'TextF'} />*/}
-        {/*  <Badge qty={2} def={true} />*/}
-        {/*  <Badge qty={2} def={false} />*/}
-        {/*  <FloatingCartInfo qty={2} />*/}
-        {/*  <Button text={'Button'} disabled={false} />*/}
-        {/*  <Button text={'Button'} disabled={true} />*/}
-        {/*  <ProductCard data={data} />*/}
-        {/*  <CategoryCard data={data} />*/}
-        {/*</div>*/}
-        {/*<CartItem data={data} />*/}
-        {/*<Input type={'text'} error />*/}
-        {/*<Input type={'number'} success />*/}
+        {/*components*/}
+        <div>
+          {/*<div className='TestDisplay'>*/}
+          {/*  <NavigationLeaf active={true} qty={3} />*/}
+          {/*  <NavigationLeaf active={false} qty={0} />*/}
+          {/*  <Chip active={true} text={'TextT'} />*/}
+          {/*  <Chip active={false} text={'TextF'} />*/}
+          {/*  <Badge qty={2} def={true} />*/}
+          {/*  <Badge qty={2} def={false} />*/}
+          {/*  <FloatingCartInfo qty={2} />*/}
+          {/*  <Button text={'Button'} disabled={false} />*/}
+          {/*  <Button text={'Button'} disabled={true} />*/}
+          {/*  <ProductCard data={data} />*/}
+          {/*  <CategoryCard data={data} />*/}
+          {/*</div>*/}
+          {/*<CartItem data={data} />*/}
+          {/*<Input type={'text'} error />*/}
+          {/*<Input type={'number'} success />*/}
+        </div>
       </div>
     )
   }
