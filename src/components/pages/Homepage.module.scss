@@ -23,6 +23,7 @@
 
   .CategoryContainer {
     display: flex;
+    flex-wrap: wrap;
 
     div:last-child:hover {
       cursor: pointer;
@@ -39,4 +40,20 @@
     }
   }
 
+}
+
+$small: 375px;
+$medium: 425px;
+$large: 768px;
+@media (max-width: $large) {
+  .Container {
+    top: 16px;
+    padding-bottom: 6rem;
+  }
+}
+
+@media (max-width: $medium) {
+}
+
+@media (max-width: $small) {
 }

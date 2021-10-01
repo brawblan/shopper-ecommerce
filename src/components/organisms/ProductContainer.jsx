@@ -2,7 +2,7 @@ import React from 'react'
 import style from '../pages/Homepage.module.scss'
 import ProductCard from '../molecules/ProductCard'
 
-const ProductContainer = ({ data, categoryDisplay, background }) => {
+const ProductContainer = ({ data, categoryDisplay }) => {
   return (
     <div className={style.ProductContainer}>
       {data.map((item) => (
@@ -10,7 +10,6 @@ const ProductContainer = ({ data, categoryDisplay, background }) => {
           data={item}
           categoryDisplay={categoryDisplay}
           key={`product_${item.id}`}
-          background={background}
         />
       ))}
     </div>

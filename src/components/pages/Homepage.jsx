@@ -14,8 +14,6 @@ class Homepage extends Component {
       this.setState({ category: innerHTML })
   }
 
-  randomBackground = (max) => Math.round(Math.random() * max)
-
   render() {
     const { productData } = this.props
     const { category } = this.state
@@ -25,15 +23,10 @@ class Homepage extends Component {
         <div className={style.HomepageIntro} />
         <CategoryContainer
           data={productData}
-          background={this.randomBackground(4)}
           categoryDisplay={category}
           onClick={this.updateCategoryView}
         />
-        <ProductContainer
-          data={productData}
-          categoryDisplay={category}
-          background={this.randomBackground}
-        />
+        <ProductContainer data={productData} categoryDisplay={category} />
       </div>
     )
   }

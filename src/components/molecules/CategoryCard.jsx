@@ -1,9 +1,10 @@
 import React from 'react'
 import ProductImage from './ProductImage'
 
-const CategoryCard = ({ data, categoryDisplay, onClick, background }) => {
+const CategoryCard = ({ data, categoryDisplay, onClick }) => {
   const { category, image } = data
   const active = category === categoryDisplay
+
   return (
     <div
       className={`CategoryCard Card Center ${
@@ -13,7 +14,7 @@ const CategoryCard = ({ data, categoryDisplay, onClick, background }) => {
     >
       <ProductImage image={image} classProp={'CategoryHeight'} />
       <div
-        className={`CategoryContent Center BodyText card${background} ${
+        className={`CategoryContent Center BodyText card${3} ${
           active ? 'Active' : ''
         }`}
       >

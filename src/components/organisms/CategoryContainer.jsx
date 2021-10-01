@@ -4,7 +4,7 @@ import image from '../assets/images/mainbackground.png'
 
 import CategoryCard from '../molecules/CategoryCard'
 
-const CategoryContainer = ({ data, categoryDisplay, onClick, background }) => {
+const CategoryContainer = ({ data, categoryDisplay, onClick }) => {
   const newData = data.map((item) => ({
     category: item.category,
     image: item.image,
@@ -24,7 +24,6 @@ const CategoryContainer = ({ data, categoryDisplay, onClick, background }) => {
         categoryDisplay={categoryDisplay}
         key={`category_all`}
         onClick={onClick}
-        background={background}
       />
       {categoryData.map((item) => (
         <CategoryCard
@@ -32,7 +31,6 @@ const CategoryContainer = ({ data, categoryDisplay, onClick, background }) => {
           categoryDisplay={categoryDisplay}
           key={`category_${item.id}`}
           onClick={onClick}
-          background={background}
         />
       ))}
     </div>

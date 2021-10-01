@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductImage from './ProductImage'
 
-const ProductCard = ({ data, categoryDisplay, background }) => {
+const ProductCard = ({ data, categoryDisplay }) => {
   const { category, name, price, image } = data
   const display =
     categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'

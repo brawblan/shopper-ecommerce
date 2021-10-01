@@ -322,3 +322,41 @@
   }
 
 }
+
+$small: 375px;
+$medium: 425px;
+$large: 768px;
+@media (max-width: $large) {
+  .App .DesktopNav {
+    bottom: 0;
+    top: revert;
+    margin: 0;
+    padding: 16px;
+    border-top: 3px solid $primary;
+
+    span {
+      display: none;
+    }
+
+    .NavBar {
+      max-width: none;
+    }
+  }
+
+  .CategoryCard.Card {
+    height: fit-content;
+
+    .ProductImageContainer {
+      display: none;
+    }
+    .CategoryContent {
+      border-radius: 1rem;
+    }
+  }
+}
+
+@media (max-width: $medium) {
+}
+
+@media (max-width: $small) {
+}
