@@ -22,6 +22,7 @@ class CommerceAPI {
               price: item.price.formatted_with_symbol,
               category: item.categories[0].name,
               available: item.inventory.available,
+              inCart: false,
             }
           })
           success({ res, data })

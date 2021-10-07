@@ -1,0 +1,14 @@
+@import 'src/defaults';
+
+.Container {
+  width: 50vw;
+  height: 80vh;
+  position: fixed;
+  top: 120px;
+  right: 0;
+  background: $white;
+  z-index: 20;
+  border-radius: 1rem;
+  @include center();
+  flex-direction: column;
+}

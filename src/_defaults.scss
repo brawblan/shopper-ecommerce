@@ -26,3 +26,9 @@ $pearl-bush-acc: #FFFAF5;
 $ash-acc: #F5F7FA;
 $greenish-yellow-acc: #F4F9F2;
 $misty-rose-acc: #F7F0F4;
+
+@mixin center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

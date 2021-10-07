@@ -3,7 +3,7 @@ import style from './Homepage.module.scss'
 import ProductContainer from '../organisms/ProductContainer'
 import CategoryContainer from '../organisms/CategoryContainer'
 
-class Homepage extends Component {
+class HomePage extends Component {
   state = {
     category: 'All',
   }
@@ -15,7 +15,7 @@ class Homepage extends Component {
   }
 
   render() {
-    const { productData } = this.props
+    const { productData, addToCart } = this.props
     const { category } = this.state
 
     return (
@@ -26,10 +26,14 @@ class Homepage extends Component {
           categoryDisplay={category}
           onClick={this.updateCategoryView}
         />
-        <ProductContainer data={productData} categoryDisplay={category} />
+        <ProductContainer
+          data={productData}
+          categoryDisplay={category}
+          addToCart={addToCart}
+        />
       </div>
     )
   }
 }
 
-export default Homepage
+export default HomePage

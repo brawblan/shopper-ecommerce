@@ -1,13 +1,27 @@
 import React from 'react'
-import NavigationBar from './NavigationBar'
+import NavigationButtons from './NavigationButtons'
 
-const NavBar = ({ qty }) => {
+const NavBar = ({
+  qty,
+  activeButton,
+  handlePageChange,
+  cartLength,
+  cartDisplay,
+  setCartState,
+}) => {
   return (
     <div className='DesktopNav Center'>
       <span>
         <h1>Shopper App</h1>
       </span>
-      <NavigationBar qty={qty} />
+      <NavigationButtons
+        qty={qty}
+        activeButton={activeButton}
+        handlePageChange={handlePageChange}
+        cartLength={cartLength}
+        setCartState={setCartState}
+        cartDisplay={cartDisplay}
+      />
     </div>
   )
 }

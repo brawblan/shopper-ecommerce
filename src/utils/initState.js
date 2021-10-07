@@ -1,7 +1,15 @@
 export const INIT_DISPLAY = {
-  homepageScreen: '',
-  shippingScreen: 'none',
-  paymentScreen: 'none',
-  confirmationScreen: 'none',
-  productScreen: 'none',
+  homePage: '',
+  accountPage: 'none',
+  cartPage: 'none',
+  shippingPage: 'none',
+  paymentPage: 'none',
+  confirmationPage: 'none',
+  productPage: 'none',
+}
+
+export const INIT_NAVBAR = {
+  homePage: true,
+  accountPage: false,
+  cartPage: false,
 }
