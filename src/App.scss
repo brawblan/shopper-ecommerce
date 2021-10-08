@@ -19,13 +19,13 @@
     width: 100%;
     justify-content: space-between;
     height: 100px;
-  }
 
-  .NavBar {
-    width: 100%;
-    max-width: fit-content;
-    justify-content: space-between;
-    gap: 58px;
+    .NavBar {
+      width: 100%;
+      max-width: fit-content;
+      justify-content: space-between;
+      gap: 58px;
+    }
   }
 
   .TestDisplay {
@@ -104,6 +104,11 @@
         position: relative;
         top: -110px;
         right: 10px;
+      }
+      svg:hover {
+        background: $dark;
+        border-radius: 1rem;
+        cursor: pointer;
       }
     }
 
@@ -351,6 +356,10 @@ $large: 768px;
     .CategoryContent {
       border-radius: 1rem;
     }
+  }
+
+  .Navigation:hover {
+    background: transparent;
   }
 }
 

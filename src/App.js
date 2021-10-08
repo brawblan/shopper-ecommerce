@@ -61,26 +61,43 @@ class App extends Component {
 
   addToCart = (id) => {
     this.state.productData.filter((item) => {
-      // eslint-disable-next-line no-unused-expressions
-      if (item.title === id) item.inCart = true
-      return id === item.id
+      return id === item.id && !item.inCart
         ? this.setState((prevState) => ({
-            cart: [...prevState.cart, { ...item, qty: 1 }],
+            cart: [...prevState.cart, { ...item, qty: 1, inCart: true }],
+            productData: prevState.productData.map((obj) =>
+              obj.id === id ? { ...item, inCart: true } : obj,
+            ),
           }))
         : null
     })
   }
 
-  adjustQty = (id) => {
+  deleteFromCart = (id) => {
+    this.setState((prevState) => ({
+      cart: prevState.cart.filter((cartItem) =>
+        cartItem.id === id ? null : cartItem,
+      ),
+      productData: prevState.productData.map((obj) =>
+        obj.id === id ? { ...obj, inCart: false } : obj,
+      ),
+    }))
+  }
+
+  adjustQty = (id, operator) => {
     this.state.cart.filter((item) => {
+      switch (operator) {
+        case '+':
+          item.qty <= item.available && item.id === id && item.qty++
+          break
+        case '-':
+          item.qty > 0 && item.id === id && item.qty--
+          break
+        default:
+      }
       // eslint-disable-next-line no-unused-expressions
       return id === item.id
         ? this.setState((prevState) => ({
-            cart: {
-              ...prevState.cart,
-              ...item,
-              qty: item.qty + 1,
-            },
+            cart: [...prevState.cart],
           }))
         : null
     })
@@ -93,7 +110,9 @@ class App extends Component {
   render() {
     const { display, productData, navBarActiveButton, cart, cartDisplay } =
       this.state
-    const cartLength = cart.length
+    const cartLength = cart.reduce((acc, val) => {
+      return val.qty + acc
+    }, 0)
     return (
       <div className='App'>
         {/*NavBar*/}
@@ -123,6 +142,7 @@ class App extends Component {
             data={cart}
             adjustQty={this.adjustQty}
             cartLength={cartLength}
+            deleteFromCart={this.deleteFromCart}
           />
         )}
 

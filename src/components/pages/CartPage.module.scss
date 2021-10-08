@@ -12,3 +12,20 @@
   @include center();
   flex-direction: column;
 }
+
+$small: 375px;
+$medium: 425px;
+$large: 768px;
+@media (max-width: $large) {
+  .Container {
+    width: 100vw;
+    height: calc(100vh - 100px);
+    top: 0;
+  }
+}
+
+@media (max-width: $medium) {
+}
+
+@media (max-width: $small) {
+}

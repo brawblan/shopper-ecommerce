@@ -2,7 +2,7 @@ import React from 'react'
 import ProductImage from './ProductImage'
 
 const ProductCard = ({ data, categoryDisplay, addToCart }) => {
-  const { category, name, price, image, id } = data
+  const { category, name, price, image, id, inCart } = data
   const display =
     categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'
 
@@ -13,6 +13,7 @@ const ProductCard = ({ data, categoryDisplay, addToCart }) => {
         classProp={''}
         addToCart={addToCart}
         id={id}
+        disabled={inCart}
       />
       <div className='ProductContent Center'>
         <p className='SmallText'>{category}</p>

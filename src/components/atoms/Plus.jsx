@@ -7,7 +7,7 @@ const Plus = ({ fill, plusBtn, id }) => {
       height='24'
       viewBox='0 0 25 24'
       xmlns='http://www.w3.org/2000/svg'
-      onClick={() => plusBtn(id)}
+      onClick={() => plusBtn(id, '+')}
     >
       <path
         d='M12.543 5V19'
