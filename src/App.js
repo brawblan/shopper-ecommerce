@@ -1,22 +1,42 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import './App.scss'
 import HomePage from './components/pages/HomePage'
 import NavBar from './components/organisms/NavBar'
-import { INIT_DISPLAY, INIT_NAVBAR } from './utils/initState'
+import {
+  INIT_DISPLAY,
+  INIT_NAVBAR,
+  INIT_SIGN_IN_STATE,
+  INIT_CREDIT_CARD,
+  INIT_CHECKOUT_DISABLED,
+} from './utils/initState'
+import {
+  userExists,
+  validateEmail,
+  validateName,
+  validatePassword,
+} from './utils/createAccountValidations'
 import ProductPage from './components/pages/ProductPage'
 import CommerceAPI from './utils/api/commerce'
 import AccountPage from './components/pages/AccountPage'
 import CartPage from './components/pages/CartPage'
+import { users } from './utils/users'
 
 const products = new CommerceAPI()
 
 class App extends Component {
   state = {
+    toggleSignIn: true,
     display: INIT_DISPLAY,
-    productData: [],
     navBarActiveButton: INIT_NAVBAR,
+    usersArr: users,
+    signIn: INIT_SIGN_IN_STATE,
+    productData: [],
     cart: [],
     cartDisplay: false,
+    cartItems: [],
+    cartSubtotal: '0.00',
+    cartTotal: '0.00',
+    isDisabled: INIT_CHECKOUT_DISABLED,
   }
 
   async componentDidMount() {
@@ -35,6 +55,102 @@ class App extends Component {
         console.log(error)
       },
     )
+  }
+
+  toggleSwitch = () => {
+    this.setState({ toggleSignIn: !this.state.toggleSignIn })
+  }
+
+  handleSignInBtn = (value) => {
+    const createTotal = (cart) => {
+      return Number(
+        cart
+          .map(({ price, qty }) => {
+            return price * qty
+          })
+          .reduce((a, b) => a + b)
+          .toFixed(2),
+      )
+    }
+    this.setState((prevState) => ({
+      signIn: { signedIn: true },
+      display: {
+        ...prevState.display,
+        [value]: '',
+      },
+      cartItems: this.state.productData,
+      cartSubtotal: createTotal(this.state.productData),
+      cartTotal: createTotal(this.state.productData),
+      isDisabled: {
+        ...prevState.isDisabled,
+        cartCheckout: false,
+      },
+    }))
+  }
+
+  handleSignUp = ({ target: { name, value } }) => {
+    let errorText
+    if (value.length) {
+      if (name === 'email') {
+        const userEmailExists = userExists(value)
+        if (userEmailExists) {
+          errorText = userEmailExists
+        } else {
+          errorText = validateEmail(value)
+        }
+        this.setState((prevState) => ({
+          error: { ...prevState.error, [`${name}Error`]: errorText },
+        }))
+      } else if (name === 'password') {
+        errorText = validatePassword(value, true)
+        this.setState((prevState) => ({
+          error: { ...prevState.error, [`${name}Error`]: errorText },
+        }))
+      } else if (name === 'confirmPassword') {
+        errorText = validatePassword(value, true)
+        this.setState((prevState) => ({
+          error: { ...prevState.error, [`${name}Error`]: errorText },
+        }))
+      } else if (name === 'firstName') {
+        errorText = validateName(value, 'first name')
+        this.setState((prevState) => ({
+          error: { ...prevState.error, [`${name}Error`]: errorText },
+        }))
+      } else if (name === 'surname') {
+        errorText = validateName(value, 'surname')
+        this.setState((prevState) => ({
+          error: { ...prevState.error, [`${name}Error`]: errorText },
+        }))
+      }
+    }
+
+    setTimeout(() => {
+      const errorCheck = this.checkErrorBeforeSignUp()
+      if (!errorCheck) {
+        this.setState((prevState) => ({
+          isDisabled: {
+            ...prevState.isDisabled,
+            signUpBtn: false,
+          },
+        }))
+      } else {
+        this.setState((prevState) => ({
+          isDisabled: {
+            ...prevState.isDisabled,
+            signUpBtn: true,
+          },
+        }))
+      }
+    }, 50)
+  }
+
+  handleSignOut = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      signIn: INIT_SIGN_IN_STATE,
+      display: INIT_DISPLAY,
+      isDisabled: INIT_CHECKOUT_DISABLED,
+    }))
   }
 
   handlePageChange = (value) => {
@@ -57,6 +173,72 @@ class App extends Component {
         [value]: true,
       },
     }))
+  }
+
+  handleHomeScreenBtn = ({ target: { value } }) => {
+    if (this.state.display.paymentPage === '') {
+      this.setState((prevState) => ({
+        ...prevState,
+        cardData: INIT_CREDIT_CARD,
+        cardType: null,
+        isDisabled: {
+          ...prevState.isDisabled,
+          paymentCheckout: true,
+        },
+      }))
+    }
+
+    const changeDisplayToNone = Object.entries(this.state.display).filter(
+      (item) => {
+        return item[1] === '' ? item[0] : ''
+      },
+    )
+    this.setState((prevState) => ({
+      display: {
+        ...prevState.display,
+        [changeDisplayToNone[0][0]]: 'none',
+        [value]: '',
+      },
+    }))
+  }
+
+  updateState = (name, state) => {
+    this.setState({
+      [name]: state,
+    })
+  }
+
+  updateNestedState = (name, sub, state) => {
+    this.setState((prevState) => ({
+      [name]: {
+        ...prevState[name],
+        [sub]: state,
+      },
+    }))
+  }
+
+  updateDoubleNestedState = (
+    name,
+    sub1,
+    state1,
+    sub2,
+    state2,
+    signUp = false,
+  ) => {
+    if (!signUp) {
+      this.setState((prevState) => ({
+        ...prevState,
+        [name]: {
+          ...prevState[name],
+          [sub1]: state1,
+          [sub2]: state2,
+        },
+      }))
+    } else {
+      this.setState((prevState) => ({
+        [name]: [...prevState[name], { [sub1]: state1, [sub2]: state2 }],
+      }))
+    }
   }
 
   addToCart = (id) => {
@@ -134,7 +316,27 @@ class App extends Component {
         {!display.productPage && <ProductPage data={'Hello World'} />}
 
         {/*AccountPage*/}
-        {!display.accountPage.length && <AccountPage data={productData} />}
+        {!display.accountPage.length && (
+          <AccountPage
+            toggle={this.state.toggleSignIn}
+            toggleSwitch={this.toggleSwitch}
+            data={productData}
+            signIn={this.state.signIn}
+            usersArr={this.state.usersArr}
+            display={this.state.display}
+            users={this.state.signIn}
+            isDisabled={this.state.isDisabled}
+            updateNestedState={this.updateNestedState}
+            updateState={this.updateState}
+            handleSignInBtn={this.handleSignInBtn}
+            createAccount={this.handleHomeScreenBtn}
+            isSignedIn={this.state.signIn.signedIn}
+            handleSignUp={this.handleSignUp}
+            backToSignIn={this.handleHomeScreenBtn}
+            updateDoubleNestedState={this.updateDoubleNestedState}
+            handleSignOut={this.handleSignOut}
+          />
+        )}
 
         {/*CartPage*/}
         {cartDisplay && (
@@ -153,3 +355,21 @@ class App extends Component {
 }
 
 export default App
+
+// Components
+// <div className='TestDisplay'>
+//   <NavigationLeaf active={true} qty={3} />
+//   <NavigationLeaf active={false} qty={0} />
+//   <Chip active={true} text={'TextT'} />
+//   <Chip active={false} text={'TextF'} />
+//   <Badge qty={2} def={true} />
+//   <Badge qty={2} def={false} />
+//   <FloatingCartInfo qty={2} />
+//   <Button text={'Button'} disabled={false} />
+//   <Button text={'Button'} disabled={true} />
+//   <ProductCard data={data} />
+//   <CategoryCard data={data[0]} />
+//   <CartItem data={data[0]} />
+//   <Input type={'text'} error />
+//   <Input type={'number'} success />
+// </div>

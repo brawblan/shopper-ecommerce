@@ -1,0 +1,96 @@
+.SignInContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: var(--borderRadius);
+  margin: 1rem auto 0;
+  padding: 1rem;
+  max-width: 84vw;
+
+  .SignUpForm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .InputForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .InputForm {
+    position: relative;
+    .InputBox {
+      display: flex;
+      align-items: center;
+      border: 1px solid black;
+      border-radius: var(--borderRadius);
+      background: transparent;
+      padding: 2px;
+    }
+    .Checkbox {
+      position: absolute;
+      top: 52px;
+      right: 44px;
+    }
+    input[type=checkbox] {
+      display: none;
+    }
+
+    input {
+      max-width: 256px;
+      border: transparent;
+      outline: none;
+      background: white;
+    }
+
+    .CheckoutBtn {
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnStatic);
+      color: var(--btnColor);
+      font-weight: bold;
+    }
+    .CheckoutBtn:hover {
+      background: var(--btnHover);
+      cursor: pointer;
+    }
+    .CheckoutBtn:active {
+      background: var(--btnActive);
+    }
+    .DisabledBtn {
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnDisabledBackground);
+      color: var(--btnDisabledColor);
+      font-weight: bold;
+      cursor: default;
+    }
+
+    .Error {
+      color: var(--error);
+      font-size: 0.5rem;
+      max-width: 190px;
+    }
+  }
+
+  .Btn {
+    width: 100%;
+    max-width: 172px;
+    border: var(--btnBorder);
+    border-radius: var(--borderRadius);
+    padding: 2px 6px;
+    background: var(--btnStatic);
+    color: var(--btnColor);
+    font-weight: bold;
+  }
+  .Btn:hover {
+    background: var(--btnHover);
+    cursor: pointer;
+  }
+  .Btn:active {
+    background: var(--btnActive);
+  }
+}
