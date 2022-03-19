@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
 import { INIT_CREATE_ACCOUNT } from '../../../utils/initState'
-import { checkPasswordMatch } from '../../../utils/createAccountValidations'
+import { userExists, checkPasswordMatch } from '../../../utils/createAccountValidations'
 import style from './SignUp.module.scss'
 import PasswordEye from '../../assets/PasswordEye'
 import Button from '../../atoms/Button'
 import Input from '../../molecules/Input'
+import {ErrorMessage} from '../../../utils/error-message.class.js'
 
 class SignUp extends Component {
-  emailError
   constructor(props) {
     super(props)
     this.state = {
       newUserInfo: INIT_CREATE_ACCOUNT,
       fill: 'grey',
       nothingDisplay: true,
+      formHasErrors: true,
+      errorMessage: {
+        firstName: [],
+        surname: [],
+        password: [],
+        email: [],
+        postcode: [],
+      }
     }
   }
 
@@ -33,9 +41,12 @@ class SignUp extends Component {
       toggleSwitch,
     } = this.props
 
+    const {newUserInfo, errorMessage, formHasErrors} = this.state
+
     const canSeePassword = () => {
-      const x = document.getElementById('password')
-      const y = document.getElementById('confirmPassword')
+      const x = document.querySelector('input[name="password"]')
+      const y = document.querySelector('input[name="confirmPassword"]')
+
       if (x.type === 'password') {
         x.type = 'text'
         y.type = 'text'
@@ -52,12 +63,42 @@ class SignUp extends Component {
 
     const handleChange = ({ target: { name, value } }) => {
       if (name !== 'postcode') {
-        updateNestedState('createAccount', name, value)
+        this.setState((prevState) => ({ 
+          newUserInfo: {
+            ...prevState.newUserInfo,
+            [name]: value
+          }
+        }))
       } else if (name === 'postcode') {
         if (value.length <= 5) {
-          updateNestedState('createAccount', name, value)
+          this.setState((prevState) => ({ 
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              [name]: value
+            }
+          }))
         }
       }
+      checkForErrors(newUserInfo)
+    }
+
+    const checkForErrors = (request) => {
+      const {firstName, surname, password, email, postcode} = request
+      console.log('email:', email);
+
+      errorMessage.firstName = firstName.length ? [] : [ErrorMessage.firstNameError]
+      errorMessage.surname = surname.length ? [] : [ErrorMessage.surnameError]
+      errorMessage.password = password.length ? [] : [ErrorMessage.passwordError]
+      errorMessage.email = email.length ? [] : [ErrorMessage.emailError]
+      errorMessage.postcode = postcode.length <= 5 ? [] : [ErrorMessage.postcodeError]
+      
+      let noErrors = !errorMessage.firstName.length && 
+                    !errorMessage.surname.length &&
+                    !errorMessage.password.length &&
+                    !errorMessage.email.length &&
+                    !errorMessage.postcode.length
+      this.setState({formHasErrors: noErrors})
+      console.log(formHasErrors, noErrors);
     }
 
     const createAccountInputs = [
@@ -65,23 +106,23 @@ class SignUp extends Component {
         type: 'text',
         id: 'firstName',
         label: 'First Name *',
-        error: error.firstNameError,
-        value: createAccount.firstName,
+        error: errorMessage.firstName,
+        value: newUserInfo.firstName,
       },
       {
         type: 'text',
-        id: 'lastName',
+        id: 'surname',
         label: 'Last Name *',
-        error: error.lastNameError,
-        value: createAccount.lastName,
+        error: errorMessage.surname,
+        value: newUserInfo.surname,
       },
       {
         type: 'password',
         id: 'password',
         label: 'Create Password *',
         svg: true,
-        error: error.passwordError,
-        value: createAccount.password,
+        error: errorMessage.password,
+        value: newUserInfo.password,
       },
       {
         type: 'password',
@@ -91,25 +132,20 @@ class SignUp extends Component {
           createAccount.password,
           createAccount.confirmPassword,
         ),
-        value: createAccount.confirmPassword,
+        value: newUserInfo.confirmPassword,
       },
       {
         type: 'text',
         id: 'email',
         label: 'Your E-Mail Address *',
-        error: error.emailError,
-        value: createAccount.email,
+        error: errorMessage.email,
+        value: newUserInfo.email,
       },
       {
         type: 'number',
         id: 'postcode',
         label: 'Zipcode *',
-        value: createAccount.postcode,
-      },
-      {
-        type: 'submit',
-        id: 'submit',
-        value: 'Create',
+        value: newUserInfo.postcode,
       },
     ]
 
@@ -154,7 +190,7 @@ class SignUp extends Component {
                       item.type === 'submit' ? isDisabled.signUpBtn : false
                     }
                     onChange={handleChange}
-                    onBlur={handleSignUp}
+                    onBlur={handleChange}
                     autoComplete='none'
                   />
                 ) : (
@@ -166,7 +202,7 @@ class SignUp extends Component {
                       id={item.id}
                       name={item.id}
                       onChange={handleChange}
-                      onBlur={handleSignUp}
+                      onBlur={(e) => checkForErrors(newUserInfo)}
                       autoComplete='off'
                     />
                     <PasswordEye
@@ -180,6 +216,12 @@ class SignUp extends Component {
               <div className={style.Error}>{item.error}</div>
             </div>
           ))}
+          <Button
+            text={'Create Account'}
+            // onClick={onClick}
+            disabled={formHasErrors}
+            type='submit'
+          />
         </form>
         <button onClick={this.addNothing} className={style.FacebookBtn}>
           sign up with Facebook

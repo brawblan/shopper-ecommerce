@@ -54,7 +54,6 @@ class SignIn extends Component {
 
     const canSeePassword = () => {
       const x = document.querySelector('input[name="password"]')
-      console.log(x)
       if (x.type === 'password') {
         x.type = 'text'
       } else {

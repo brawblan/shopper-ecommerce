@@ -100,6 +100,11 @@
         right: -10px;
         z-index: 0;
       }
+      img:hover {
+        transform: scale(1.5);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+      }
       svg {
         position: relative;
         top: -110px;
@@ -177,8 +182,8 @@
     padding: 10px;
     width: 335px;
     height: 87px;
-    background: #FFFFFF;
-    border: 1px solid #E1E5EB;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
     border-radius: 20px;
     margin: 16px 0;
     gap: 10px;
@@ -189,7 +194,6 @@
       width: 67px;
       height: 67px;
       position: relative;
-
 
       img {
         width: 56px;
@@ -237,7 +241,7 @@
       padding: 8px;
       width: 36px;
       height: 36px;
-      background: #F5F7FA;
+      background: #f5f7fa;
       border-radius: 13px;
       margin: 0 16px;
     }
@@ -276,11 +280,11 @@
   }
   .Input.Success {
     border: 1px solid $success;
-    box-shadow: 0 0 0 4px #E4FFF8;
+    box-shadow: 0 0 0 4px #e4fff8;
   }
   .Input.Error {
     border: 1px solid $error;
-    box-shadow: 0 0 0 4px #FFE4EC;
+    box-shadow: 0 0 0 4px #ffe4ec;
   }
 
   .Navigation {
@@ -301,7 +305,6 @@
   }
   .Navigation.Active {
     background: $primary;
-
   }
 
   .FloatingCartInfo {
@@ -323,7 +326,6 @@
       color: $primary;
     }
   }
-
 }
 
 $small: 375px;

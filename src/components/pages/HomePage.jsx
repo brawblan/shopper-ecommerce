@@ -15,7 +15,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const { productData, addToCart } = this.props
+    const { productData, addToCart, selectProduct } = this.props
     const { category } = this.state
 
     return (
@@ -30,6 +30,7 @@ class HomePage extends Component {
           data={productData}
           categoryDisplay={category}
           addToCart={addToCart}
+          selectProduct={selectProduct}
         />
       </div>
     )

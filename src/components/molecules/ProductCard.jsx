@@ -1,13 +1,13 @@
 import React from 'react'
 import ProductImage from './ProductImage'
 
-const ProductCard = ({ data, categoryDisplay, addToCart }) => {
+const ProductCard = ({ data, categoryDisplay, addToCart, selectProduct }) => {
   const { category, name, price, image, id, inCart } = data
   const display =
     categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'
 
   return (
-    <div className='Card Center' style={{ display: `${display}` }}>
+    <div className='Card Center' style={{ display: `${display}` }} onClick={(e) => selectProduct(data)}>
       <ProductImage
         image={image}
         classProp={''}

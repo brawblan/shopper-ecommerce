@@ -31,6 +31,8 @@ class App extends Component {
     usersArr: users,
     signIn: INIT_SIGN_IN_STATE,
     productData: [],
+    productCardDisplay: false,
+    productSelected: [],
     cart: [],
     cartDisplay: false,
     cartItems: [],
@@ -241,6 +243,14 @@ class App extends Component {
     }
   }
 
+  selectProduct = (data) => {
+    console.log(data)
+    this.setState((prevState) => ({
+      productCardDisplay: true,
+      productData: data,
+    }))
+  }
+
   addToCart = (id) => {
     this.state.productData.filter((item) => {
       return id === item.id && !item.inCart
@@ -290,8 +300,15 @@ class App extends Component {
   }
 
   render() {
-    const { display, productData, navBarActiveButton, cart, cartDisplay } =
-      this.state
+    const {
+      display,
+      productData,
+      navBarActiveButton,
+      cart,
+      cartDisplay,
+      productCardDisplay,
+      productSelected,
+    } = this.state
     const cartLength = cart.reduce((acc, val) => {
       return val.qty + acc
     }, 0)
@@ -310,10 +327,14 @@ class App extends Component {
         {/*Pages*/}
         {/*HomePage*/}
         {!display.homePage.length && (
-          <HomePage productData={productData} addToCart={this.addToCart} />
+          <HomePage
+            productData={productData}
+            addToCart={this.addToCart}
+            selectProduct={this.selectProduct}
+          />
         )}
         {/*ProductDetailsPage*/}
-        {!display.productPage && <ProductPage data={'Hello World'} />}
+        {/* {!display.productPage && <ProductPage data={'Hello World'} />} */}
 
         {/*AccountPage*/}
         {!display.accountPage.length && (
@@ -346,6 +367,9 @@ class App extends Component {
             cartLength={cartLength}
             deleteFromCart={this.deleteFromCart}
           />
+        )}
+        {productCardDisplay && (
+          <ProductPage data={productSelected} addToCart={this.addToCart} />
         )}
 
         {/*components*/}
