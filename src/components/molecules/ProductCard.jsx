@@ -7,7 +7,7 @@ const ProductCard = ({ data, categoryDisplay, addToCart, selectProduct }) => {
     categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'
 
   return (
-    <div className='Card Center' style={{ display: `${display}` }} onClick={(e) => selectProduct(data)}>
+    <div className='Card Center Product' style={{ display: `${display}` }} onClick={(e) => selectProduct(data)}>
       <ProductImage
         image={image}
         classProp={''}

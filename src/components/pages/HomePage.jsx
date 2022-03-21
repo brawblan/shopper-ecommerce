@@ -15,11 +15,11 @@ class HomePage extends Component {
   }
 
   render() {
-    const { productData, addToCart, selectProduct } = this.props
+    const { productData, addToCart, selectProduct, cartDisplay, productCardDisplay, shippingDisplay } = this.props
     const { category } = this.state
 
     return (
-      <div className={style.Container}>
+      <div className={`${style.Container} ${(cartDisplay || productCardDisplay || shippingDisplay) ? style.blurred : ''}`}>
         <div className={style.HomepageIntro} />
         <CategoryContainer
           data={productData}

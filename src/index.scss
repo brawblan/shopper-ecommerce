@@ -1,6 +1,8 @@
 @import 'defaults';
 
-html { font-size: 16px; }
+html {
+  font-size: 16px;
+}
 body {
   margin: 0 1rem;
   padding: 0;
@@ -21,21 +23,36 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
-h1, h2, .TitleRegular, .TitleBold, .BodyText, .BodyTextBold, .SmallText, .Caption, .Button, .Link {
+h1,
+h2,
+.TitleRegular,
+.TitleBold,
+.BodyText,
+.BodyTextBold,
+.SmallText,
+.Caption,
+.Button,
+.Link {
   font-style: normal;
   text-align: center;
   color: $dark;
 }
-h1, h2, .BodyText, .BodyTextBold {
+h1,
+h2,
+.BodyText,
+.BodyTextBold {
   line-height: 140%;
   letter-spacing: -0.02em;
 }
 
-.TitleRegular, .BodyText, .SmallText, .Caption {
+.TitleRegular,
+.BodyText,
+.SmallText,
+.Caption {
   font-weight: normal;
 }
 
@@ -46,6 +63,10 @@ h1 {
 h2 {
   font-weight: 500;
   font-size: 1.5625rem;
+}
+
+div.TitleBold {
+  font-size: 2rem;
 }
 
 .TitleRegular,

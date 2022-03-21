@@ -18,6 +18,7 @@ import {
 import ProductPage from './components/pages/ProductPage'
 import CommerceAPI from './utils/api/commerce'
 import AccountPage from './components/pages/AccountPage'
+import ShippingPage from './components/pages/ShippingPage'
 import CartPage from './components/pages/CartPage'
 import { users } from './utils/users'
 
@@ -35,9 +36,9 @@ class App extends Component {
     productSelected: [],
     cart: [],
     cartDisplay: false,
+    shippingDisplay: false,
     cartItems: [],
-    cartSubtotal: '0.00',
-    cartTotal: '0.00',
+    cartPriceInfo: {},
     isDisabled: INIT_CHECKOUT_DISABLED,
   }
 
@@ -64,16 +65,6 @@ class App extends Component {
   }
 
   handleSignInBtn = (value) => {
-    const createTotal = (cart) => {
-      return Number(
-        cart
-          .map(({ price, qty }) => {
-            return price * qty
-          })
-          .reduce((a, b) => a + b)
-          .toFixed(2),
-      )
-    }
     this.setState((prevState) => ({
       signIn: { signedIn: true },
       display: {
@@ -81,8 +72,6 @@ class App extends Component {
         [value]: '',
       },
       cartItems: this.state.productData,
-      cartSubtotal: createTotal(this.state.productData),
-      cartTotal: createTotal(this.state.productData),
       isDisabled: {
         ...prevState.isDisabled,
         cartCheckout: false,
@@ -244,11 +233,10 @@ class App extends Component {
   }
 
   selectProduct = (data) => {
-    console.log(data)
-    this.setState((prevState) => ({
-      productCardDisplay: true,
-      productData: data,
-    }))
+    this.setState({
+      productCardDisplay: !this.state.productCardDisplay,
+      productSelected: data,
+    })
   }
 
   addToCart = (id) => {
@@ -295,6 +283,10 @@ class App extends Component {
     })
   }
 
+  closeModal = () => {
+    this.setState({ productCardDisplay: !this.state.productCardDisplay })
+  }
+
   setCartState = () => {
     this.setState({ cartDisplay: !this.state.cartDisplay })
   }
@@ -308,6 +300,7 @@ class App extends Component {
       cartDisplay,
       productCardDisplay,
       productSelected,
+      shippingDisplay,
     } = this.state
     const cartLength = cart.reduce((acc, val) => {
       return val.qty + acc
@@ -331,6 +324,9 @@ class App extends Component {
             productData={productData}
             addToCart={this.addToCart}
             selectProduct={this.selectProduct}
+            cartDisplay={cartDisplay}
+            productCardDisplay={productCardDisplay}
+            shippingDisplay={shippingDisplay}
           />
         )}
         {/*ProductDetailsPage*/}
@@ -366,10 +362,22 @@ class App extends Component {
             adjustQty={this.adjustQty}
             cartLength={cartLength}
             deleteFromCart={this.deleteFromCart}
+            updateState={this.updateState}
           />
         )}
         {productCardDisplay && (
-          <ProductPage data={productSelected} addToCart={this.addToCart} />
+          <ProductPage
+            data={productSelected}
+            addToCart={this.addToCart}
+            closeModal={this.closeModal}
+          />
+        )}
+        {shippingDisplay && (
+          <ShippingPage
+            data={productSelected}
+            addToCart={this.addToCart}
+            updateState={this.updateState}
+          />
         )}
 
         {/*components*/}

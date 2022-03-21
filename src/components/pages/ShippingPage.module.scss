@@ -1,0 +1,33 @@
+@import 'src/defaults';
+
+.Container {
+  @include center();
+  flex-direction: column;
+  position: fixed;
+  width: 50vw;
+  height: 80vh;
+  margin: auto;
+  top: 120px;
+  background: $white;
+  z-index: 20;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 10px #51b1a6;
+}
+
+$small: 375px;
+$medium: 425px;
+$large: 768px;
+@media (max-width: $large) {
+  .Container {
+    width: 100vw;
+    height: calc(100vh - 100px);
+    top: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: $medium) {
+}
+
+@media (max-width: $small) {
+}
