@@ -258,6 +258,23 @@
     }
   }
 
+  .BackArrowBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    background: #f5f7fa;
+    border-radius: 13px;
+    margin: 0 16px;
+    transition: transform 0.3s ease-in-out;
+  }
+  .BackArrowBtn:hover {
+    transform: rotate(360deg);
+    cursor: pointer;
+  }
+
   .BasicInput {
     border: none;
     width: 100%;
@@ -281,7 +298,7 @@
     background: $white;
     box-sizing: border-box;
     border-radius: 16px;
-    margin: 16px 0;
+    margin: 0.5rem 0 1rem;
     position: relative;
 
     svg {

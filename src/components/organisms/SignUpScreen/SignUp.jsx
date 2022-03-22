@@ -98,7 +98,6 @@ class SignUp extends Component {
                     !errorMessage.email.length &&
                     !errorMessage.postcode.length
       this.setState({formHasErrors: noErrors})
-      console.log(formHasErrors, noErrors);
     }
 
     const createAccountInputs = [

@@ -20,6 +20,7 @@ import CommerceAPI from './utils/api/commerce'
 import AccountPage from './components/pages/AccountPage'
 import ShippingPage from './components/pages/ShippingPage'
 import CartPage from './components/pages/CartPage'
+import PaymentPage from './components/pages/PaymentPage'
 import { users } from './utils/users'
 
 const products = new CommerceAPI()
@@ -37,6 +38,7 @@ class App extends Component {
     cart: [],
     cartDisplay: false,
     shippingDisplay: false,
+    paymentDisplay: false,
     cartItems: [],
     cartPriceInfo: {},
     isDisabled: INIT_CHECKOUT_DISABLED,
@@ -301,6 +303,7 @@ class App extends Component {
       productCardDisplay,
       productSelected,
       shippingDisplay,
+      paymentDisplay,
     } = this.state
     const cartLength = cart.reduce((acc, val) => {
       return val.qty + acc
@@ -327,6 +330,7 @@ class App extends Component {
             cartDisplay={cartDisplay}
             productCardDisplay={productCardDisplay}
             shippingDisplay={shippingDisplay}
+            paymentDisplay={paymentDisplay}
           />
         )}
         {/*ProductDetailsPage*/}
@@ -355,6 +359,14 @@ class App extends Component {
           />
         )}
 
+        {productCardDisplay && (
+          <ProductPage
+            data={productSelected}
+            addToCart={this.addToCart}
+            closeModal={this.closeModal}
+          />
+        )}
+
         {/*CartPage*/}
         {cartDisplay && (
           <CartPage
@@ -365,20 +377,14 @@ class App extends Component {
             updateState={this.updateState}
           />
         )}
-        {productCardDisplay && (
-          <ProductPage
-            data={productSelected}
-            addToCart={this.addToCart}
-            closeModal={this.closeModal}
-          />
-        )}
         {shippingDisplay && (
           <ShippingPage
-            data={productSelected}
-            addToCart={this.addToCart}
+            data={this.state.cartPriceInfo}
+            cart={this.state.cart}
             updateState={this.updateState}
           />
         )}
+        {paymentDisplay && <PaymentPage updateState={this.updateState} />}
 
         {/*components*/}
       </div>

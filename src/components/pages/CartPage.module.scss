@@ -14,6 +14,26 @@
   box-shadow: 1px 1px 10px #51b1a6;
   padding: 1rem 0.75rem;
 
+  .HeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
+
+    .ExitButton {
+      svg {
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+    .ExitButton:hover {
+      svg {
+        transform: rotate(225deg);
+        cursor: pointer;
+      }
+    }
+  }
+
   .Container {
     display: flex;
     justify-content: center;
@@ -32,23 +52,23 @@
     padding: 0 0.75rem;
   }
 
-  .InfoContainer {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    margin: 1rem auto;
-    border-radius: 1rem;
-    box-shadow: 1px 1px 10px #51b1a6;
-    padding: 1rem 0.75rem;
+  // .InfoContainer {
+  //   display: flex;
+  //   flex-direction: column;
+  //   height: fit-content;
+  //   margin: 1rem auto;
+  //   border-radius: 1rem;
+  //   box-shadow: 1px 1px 10px #51b1a6;
+  //   padding: 1rem 0.75rem;
 
-    button {
-      margin: 1rem auto 0;
-    }
+  //   button {
+  //     margin: 1rem auto 0;
+  //   }
 
-    .PriceContainer {
-      text-align: left;
-    }
-  }
+  //   .PriceContainer {
+  //     text-align: left;
+  //   }
+  // }
 }
 
 $small: 375px;

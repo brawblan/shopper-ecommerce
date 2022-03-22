@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import CartItem from '../organisms/CartItem'
 import style from './CartPage.module.scss'
 import FloatingCartInfo from '../molecules/FloatingCartInfo'
-import Button from './../atoms/Button'
+import CartInformation from '../organisms/CartInformation'
+import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
 import {CartService} from '../../services/cart-service/cart.service.js'
 
 class CartPage extends PureComponent {
@@ -44,7 +45,6 @@ class CartPage extends PureComponent {
   render() {
     const { adjustQty, cartLength, deleteFromCart, updateState } = this.props
     const { cartInfo, cart } = this.state
-    const { subtotal, taxes, total } = cartInfo
 
     const onCheckout = () => {
       updateState('cartPriceInfo', cartInfo)
@@ -52,9 +52,20 @@ class CartPage extends PureComponent {
       updateState('shippingDisplay', true)
     }
 
+    const closeModal = () => {
+      updateState('cartDisplay', false)
+    }
+
     return (
       <div className={style.CartContainer}>
-        <FloatingCartInfo qty={cartLength} />
+        <div className={style.HeaderContainer}>
+            <FloatingCartInfo qty={cartLength} />
+            <div className={style.ExitButton}>
+              <CartItemBtnPlus
+                  adjustQty={closeModal}
+              />
+            </div>
+          </div>
         <div className={style.Container}>
           <div className={style.ItemContainer}>
             {cart.length ? (
@@ -70,20 +81,11 @@ class CartPage extends PureComponent {
               <div>You have no items in your cart</div>
             )}
           </div>
-          <div className={style.InfoContainer}>
-            <h2>Cart Information</h2>
-            <div className={style.PriceContainer}>
-              <p>Subtotal: ${subtotal}.00</p>
-              <p>Taxes: ${Number(taxes).toFixed(2)}</p>
-              <p>Total: ${Number(total).toFixed(2)}</p>
-            </div>
-            <Button
-              text={'Checkout'}
-              disabled={false}
-              width={10}
-              onClick={onCheckout}
-            />
-          </div>
+          <CartInformation
+            cartInfo={cartInfo}
+            onCheckout={onCheckout}
+            buttonText={'Checkout'}
+          />
         </div>
       </div>
     )

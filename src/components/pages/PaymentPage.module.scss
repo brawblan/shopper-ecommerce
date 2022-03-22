@@ -1,0 +1,37 @@
+@import 'src/defaults';
+
+.Container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  width: 50vw;
+  height: 80vh;
+  margin: auto;
+  top: 120px;
+  background: $white;
+  z-index: 20;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 10px #51b1a6;
+
+  .HeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 2rem;
+
+    .ExitButton {
+      svg {
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+    .ExitButton:hover {
+      svg {
+        transform: rotate(225deg);
+        cursor: pointer;
+      }
+    }
+  }
+}

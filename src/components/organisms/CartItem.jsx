@@ -15,14 +15,18 @@ const CartItem = ({ data, adjustQty, deleteFromCart }) => {
         <div className='BodyText'>{name}</div>
         <div className='ItemPriceQty'>
           <div className='BodyTextBold'>${adjustedPrice}</div>
-          <CartItemBtnMinus
-            adjustQty={adjustQty}
-            id={id}
-            qty={qty}
-            deleteFromCart={deleteFromCart}
-          />
-          <span>{qty}</span>
-          <CartItemBtnPlus adjustQty={adjustQty} id={id} />
+          {adjustQty && deleteFromCart && (
+            <>
+              <CartItemBtnMinus
+                adjustQty={adjustQty}
+                id={id}
+                qty={qty}
+                deleteFromCart={deleteFromCart}
+              />
+              <span>{qty}</span>
+              <CartItemBtnPlus adjustQty={adjustQty} id={id} />
+            </>
+          )}
         </div>
       </div>
     </div>

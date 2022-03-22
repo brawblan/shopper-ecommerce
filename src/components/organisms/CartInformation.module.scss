@@ -1,0 +1,39 @@
+.InfoContainer {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  margin: 1rem auto;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 10px #51b1a6;
+  padding: 1rem 0.75rem;
+
+  button {
+    margin: 1rem auto 0;
+  }
+
+  .PriceContainer {
+    text-align: left;
+  }
+}
+
+$small: 375px;
+$medium: 425px;
+$large: 768px;
+$xlarge: 1024px;
+
+@media (max-width: $xlarge) {
+  .InfoContainer {
+    position: absolute;
+    bottom: 1rem;
+    left: calc(50% - 108px);
+  }
+}
+
+@media (max-width: $large) {
+}
+
+@media (max-width: $medium) {
+}
+
+@media (max-width: $small) {
+}
