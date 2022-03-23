@@ -23,6 +23,15 @@ import CartPage from './components/pages/CartPage'
 import PaymentPage from './components/pages/PaymentPage'
 import { users } from './utils/users'
 
+const INIT_SHIPPING_INFORMATION = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  state: '',
+  zipcode: '',
+}
+
 const products = new CommerceAPI()
 
 class App extends Component {
@@ -38,6 +47,7 @@ class App extends Component {
     cart: [],
     cartDisplay: false,
     shippingDisplay: false,
+    shippingInformation: INIT_SHIPPING_INFORMATION,
     paymentDisplay: false,
     cartItems: [],
     cartPriceInfo: {},
@@ -303,6 +313,7 @@ class App extends Component {
       productCardDisplay,
       productSelected,
       shippingDisplay,
+      shippingInformation,
       paymentDisplay,
     } = this.state
     const cartLength = cart.reduce((acc, val) => {
@@ -382,6 +393,7 @@ class App extends Component {
             data={this.state.cartPriceInfo}
             cart={this.state.cart}
             updateState={this.updateState}
+            shippingInformation={shippingInformation}
           />
         )}
         {paymentDisplay && <PaymentPage updateState={this.updateState} />}

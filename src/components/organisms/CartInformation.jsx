@@ -2,7 +2,7 @@ import React from 'react'
 import Button from './../atoms/Button'
 import style from './CartInformation.module.scss'
 
-const CartInformation = ({cartInfo, onCheckout, buttonText}) => {
+const CartInformation = ({cartInfo, onCheckout, buttonText, disabled}) => {
   const {subtotal, taxes, total} = cartInfo
   return (
     <div className={style.InfoContainer}>
@@ -14,7 +14,7 @@ const CartInformation = ({cartInfo, onCheckout, buttonText}) => {
       </div>
       <Button
         text={buttonText}
-        disabled={false}
+        disabled={!disabled}
         width={10}
         onClick={onCheckout}
       />

@@ -5,7 +5,8 @@ import CartInformation from '../organisms/CartInformation'
 import BackArrowButton from '../molecules/BackArrowButton'
 import style from './ShippingPage.module.scss'
 import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
-import {ErrorMessage} from '../../utils/error-message.class'
+import {ShippingService} from '../../services/shipping-service/shipping.service'
+import '../../App.scss'
 
 class ShippingPage extends Component {
   state = {
@@ -17,17 +18,14 @@ class ShippingPage extends Component {
       state: [],
       zipcode: []
     },
-    shippingInfo: {},
+    shippingInfo: this.props.shippingInformation,
     formHasErrors: false,
+    inputHasFocus: ''
   }
 
   render() {
     const {data, cart, updateState} = this.props
-    const { shippingInfo, shippingInputError } = this.state
-    
-    // const closeModal = () => {
-    //   updateState('shippingDisplay', false)
-    // }
+    const { shippingInfo, shippingInputError, formHasErrors, inputHasFocus } = this.state
 
     const shippingInputObject = [
       {
@@ -35,82 +33,83 @@ class ShippingPage extends Component {
         id: 'firstName',
         label: 'First Name *',
         error: shippingInputError.firstName,
-        value: '',
+        value: shippingInfo.firstName,
       },
       {
         type: 'text',
-        id: 'surname',
+        id: 'lastName',
         label: 'Last Name *',
         error: shippingInputError.lastName,
-        value: '',
+        value: shippingInfo.lastName,
       },
       {
         type: 'text',
         id: 'address',
         label: 'Address *',
         error: shippingInputError.address,
-        value: '',
+        value: shippingInfo.address,
       },
       {
         type: 'text',
         id: 'city',
         label: 'City *',
         error: shippingInputError.city,
-        value: '',
+        value: shippingInfo.city,
       },
       {
-        type: 'text',
+        type: 'select',
         id: 'state',
         label: 'State *',
         error: shippingInputError.state,
-        value: '',
+        value: shippingInfo.state,
       },
       {
         type: 'text',
         id: 'zipcode',
         label: 'Zipcode *',
         error: shippingInputError.zipcode,
-        value: '',
+        value: shippingInfo.zipcode,
       },
     ]
 
+    const handleBlur = (e) => {
+      handleChange(e)
+      this.setState({inputHasFocus: ''})
+    }
+
     const handleChange = ({ target: { name, value } }) => {
-      if (name !== 'postcode') {
         this.setState((prevState) => ({ 
           shippingInfo: {
             ...prevState.shippingInfo,
-            [name]: value
+            [name]: value.toUpperCase()
           }
         }))
-      } else if (name === 'postcode') {
-        if (value.length <= 5) {
-          this.setState((prevState) => ({ 
-            shippingInfo: {
-              ...prevState.shippingInfo,
-              [name]: value
-            }
-          }))
-        }
-      }
+
       checkForErrors(shippingInfo)
     }
 
     const checkForErrors = (request) => {
-      const {firstName, surname, zipcode} = request
+      const {firstName, lastName, zipcode, address, city, state} = request
 
-      shippingInputError.firstName = firstName.length ? [] : [ErrorMessage.firstNameError]
-      shippingInputError.lastName = surname.length ? [] : [ErrorMessage.surnameError]
-      shippingInputError.zipcode = zipcode.length <= 5 ? [] : [ErrorMessage.postcodeError]
+      shippingInputError.firstName = ShippingService.nameValidation('firstName', firstName)
+      shippingInputError.lastName = ShippingService.nameValidation('lastName', lastName)
+      shippingInputError.city = ShippingService.nameValidation('city', city)
+      shippingInputError.address = ShippingService.addressValidation(address)
+      shippingInputError.state = ShippingService.stateValidation(state)
+      shippingInputError.zipcode = ShippingService.zipcodeValidation(zipcode)
       
       let noErrors = !shippingInputError.firstName.length && 
                     !shippingInputError.lastName.length &&
-                    !shippingInputError.zipcode.length
+                    !shippingInputError.zipcode.length &&
+                    !shippingInputError.city.length &&
+                    !shippingInputError.address.length
       this.setState({formHasErrors: noErrors})
     }
 
-    const onCheckout = () => {
+    const onEnterShipping = () => {
       updateState('shippingDisplay', false)
       updateState('paymentDisplay', true)
+      updateState('shippingInformation', shippingInfo)
     }
     
     const onBackArrow = () => {
@@ -142,23 +141,14 @@ class ShippingPage extends Component {
                 <div className={style.InputForm} key={item.id}>
                   <label form={item.id}>{item.label}</label>
                     <Input
-                      // className={
-                      //   item.type === 'submit'
-                      //     ? isDisabled.signUpBtn
-                      //       ? style.DisabledBtn
-                      //       : style.CheckoutBtn
-                      //     : style.InputBox
-                      // }
                       type={item.type}
                       key={item.id}
                       id={item.id}
                       name={item.id}
                       value={item.value}
-                      // disabled={
-                      //   item.type === 'submit' ? isDisabled.signUpBtn : false
-                      // }
+                      inputHasFocus={inputHasFocus}
                       onChange={handleChange}
-                      onBlur={handleChange}
+                      onBlur={handleBlur}
                       autoComplete='none'
                     />
                   <div className={style.Error}>{item.error}</div>
@@ -168,8 +158,9 @@ class ShippingPage extends Component {
             <div className={style.CartInformationContainer}>
               <CartInformation
                 cartInfo={data}
-                onCheckout={onCheckout}
+                onCheckout={onEnterShipping}
                 buttonText={'Shipping'}
+                disabled={formHasErrors}
               />
               <div>
                 {cart.map((item) => (

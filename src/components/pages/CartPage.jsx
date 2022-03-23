@@ -85,6 +85,7 @@ class CartPage extends PureComponent {
             cartInfo={cartInfo}
             onCheckout={onCheckout}
             buttonText={'Checkout'}
+            disabled={true} // checking for formHasErrors in other components
           />
         </div>
       </div>
