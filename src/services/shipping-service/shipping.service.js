@@ -31,7 +31,7 @@ export class ShippingService {
   }
 
   static zipcodeValidation = (value) => {
-    if (value.length !== 5 && typeof value === Number) {
+    if (value.length !== 5) {
       return [ErrorMessage.postcodeError]
     }
     return ''

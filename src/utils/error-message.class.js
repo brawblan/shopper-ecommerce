@@ -8,4 +8,10 @@ export const ErrorMessage = {
   addressError: 'Please enter valid address',
   cityError: 'Please enter valid city',
   stateError: 'Please enter valid state',
+  cardNumberError: 'Enter a valid card number',
+  securityCodeError: 'Must be 3 characters or more',
+  cardHolderError: 'Letters only',
+  emptyCardHolderError: 'Must enter name',
+  enterDateError: 'Please enter a valid date',
+  invalidDateError: 'Invalid date',
 }

@@ -47,3 +47,22 @@ export const INIT_CHECKOUT_DISABLED = {
   shippingCheckout: true,
   paymentCheckout: true,
 }
+
+export const INIT_SHIPPING_INFORMATION = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  state: '',
+  zipcode: '',
+}
+
+export const INIT_PAYMENT_INFORMATION = {
+  card: '',
+  cardHolder: '',
+  expiry: {
+    month: '',
+    year: '',
+  },
+  securityCode: '',
+}

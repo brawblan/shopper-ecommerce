@@ -8,6 +8,8 @@ import {
   INIT_SIGN_IN_STATE,
   INIT_CREDIT_CARD,
   INIT_CHECKOUT_DISABLED,
+  INIT_SHIPPING_INFORMATION,
+  INIT_PAYMENT_INFORMATION,
 } from './utils/initState'
 import {
   userExists,
@@ -22,15 +24,6 @@ import ShippingPage from './components/pages/ShippingPage'
 import CartPage from './components/pages/CartPage'
 import PaymentPage from './components/pages/PaymentPage'
 import { users } from './utils/users'
-
-const INIT_SHIPPING_INFORMATION = {
-  firstName: '',
-  lastName: '',
-  address: '',
-  city: '',
-  state: '',
-  zipcode: '',
-}
 
 const products = new CommerceAPI()
 
@@ -49,6 +42,7 @@ class App extends Component {
     shippingDisplay: false,
     shippingInformation: INIT_SHIPPING_INFORMATION,
     paymentDisplay: false,
+    paymentInfo: INIT_PAYMENT_INFORMATION,
     cartItems: [],
     cartPriceInfo: {},
     isDisabled: INIT_CHECKOUT_DISABLED,
@@ -309,12 +303,14 @@ class App extends Component {
       productData,
       navBarActiveButton,
       cart,
+      cartPriceInfo,
       cartDisplay,
       productCardDisplay,
       productSelected,
       shippingDisplay,
       shippingInformation,
       paymentDisplay,
+      paymentInfo,
     } = this.state
     const cartLength = cart.reduce((acc, val) => {
       return val.qty + acc
@@ -390,13 +386,21 @@ class App extends Component {
         )}
         {shippingDisplay && (
           <ShippingPage
-            data={this.state.cartPriceInfo}
-            cart={this.state.cart}
+            data={cartPriceInfo}
+            cart={cart}
             updateState={this.updateState}
             shippingInformation={shippingInformation}
           />
         )}
-        {paymentDisplay && <PaymentPage updateState={this.updateState} />}
+        {paymentDisplay && (
+          <PaymentPage
+            data={cartPriceInfo}
+            updateState={this.updateState}
+            cart={cart}
+            shippingInformation={shippingInformation}
+            paymentInformation={paymentInfo}
+          />
+        )}
 
         {/*components*/}
       </div>

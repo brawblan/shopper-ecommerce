@@ -359,6 +359,70 @@
       color: $primary;
     }
   }
+
+  .InputBaseLabel {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin: 0 auto;
+
+    img {
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      width: 50px;
+      height: 33px;
+    }
+    label {
+      width: 200px;
+    }
+
+    .InputRoot,
+    .SelectRoot,
+    .CheckoutBtn,
+    .DisabledBtn {
+      align-items: self-start;
+      border: none;
+      font-size: 1.2rem;
+      width: 100%;
+    }
+    .SelectRoot {
+      width: 50%;
+      min-width: 5rem;
+    }
+
+    .CheckoutBtn {
+      border: var(--btnBorder);
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnStatic);
+      color: var(--btnColor);
+      font-weight: bold;
+    }
+    .CheckoutBtn:hover {
+      background: var(--btnHover);
+      cursor: pointer;
+    }
+    .CheckoutBtn:active {
+      background: var(--btnActive);
+    }
+    .DisabledBtn {
+      border: var(--btnDisabledBorder);
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnDisabledBackground);
+      color: var(--btnDisabledColor);
+      font-weight: bold;
+      cursor: default;
+    }
+    .Error {
+      color: var(--error);
+      font-size: 14px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
 }
 
 $small: 375px;

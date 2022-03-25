@@ -1,103 +1,155 @@
 import React, { Component } from 'react'
-import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
+import CartItem from '../organisms/CartItem'
+import Input from './../molecules/Input.jsx'
+import CartInformation from '../organisms/CartInformation'
 import BackArrowButton from '../molecules/BackArrowButton'
 import style from './PaymentPage.module.scss'
+import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
+import {PaymentService} from '../../services/payment-service/payment.service'
+import '../../App.scss'
 
-class ShippingPage extends Component {
+class PaymentPage extends Component {
   state = {
-    formHasErrors: false,
+    paymentInputError: {
+      cardError: [],
+      cardHolderError: [],
+      expiryError: [],
+      securityCodeError: []
+    },
+    paymentInfo: this.props.paymentInformation,
+    formHasErrors: false
   }
 
   render() {
-    const {updateState} = this.props
-    // const { shippingInfo, shippingInputError } = this.state
-    
-    // const closeModal = () => {
-    //   updateState('shippingDisplay', false)
-    // }
+    const {data, cart, shippingInformation, paymentInformation, updateState} = this.props
+    const { paymentInfo, paymentInputError, formHasErrors } = this.state
 
-    // const shippingInputObject = [
-    //   {
-    //     type: 'text',
-    //     id: 'firstName',
-    //     label: 'First Name *',
-    //     error: shippingInputError.firstName,
-    //     value: '',
-    //   },
-    //   {
-    //     type: 'text',
-    //     id: 'surname',
-    //     label: 'Last Name *',
-    //     error: shippingInputError.lastName,
-    //     value: '',
-    //   },
-    //   {
-    //     type: 'text',
-    //     id: 'address',
-    //     label: 'Address *',
-    //     error: shippingInputError.address,
-    //     value: '',
-    //   },
-    //   {
-    //     type: 'text',
-    //     id: 'city',
-    //     label: 'City *',
-    //     error: shippingInputError.city,
-    //     value: '',
-    //   },
-    //   {
-    //     type: 'text',
-    //     id: 'state',
-    //     label: 'State *',
-    //     error: shippingInputError.state,
-    //     value: '',
-    //   },
-    //   {
-    //     type: 'text',
-    //     id: 'zipcode',
-    //     label: 'Zipcode *',
-    //     error: shippingInputError.zipcode,
-    //     value: '',
-    //   },
-    // ]
+    const paymentInputObject = [
+      {
+        label: 'Card Number',
+        name: 'card',
+        value: paymentInfo.card,
+        id: 'card',
+        type: 'text',
+        error: paymentInputError.cardError,
+      },
+      {
+        label: "CardHolder's Name",
+        name: 'cardHolder',
+        value: paymentInfo.cardHolder,
+        id: 'cardHolder',
+        type: 'text',
+        error: paymentInputError.cardHolderError,
+      },
+      {
+        label: 'Expiry Date (MM/YY)',
+        name: 'expiry',
+        // value: paymentInfo.expiry,
+        id: 'expiry',
+        type: 'expiryDate',
+        error: paymentInputError.expiryError,
+      },
+      {
+        label: 'Security Code',
+        name: 'securityCode',
+        value: paymentInfo.securityCode,
+        id: 'securityCode',
+        type: 'number',
+        error: paymentInputError.securityCodeError,
+      },
+    ]
 
-    // const handleChange = ({ target: { name, value } }) => {
-    //   if (name !== 'postcode') {
-    //     this.setState((prevState) => ({ 
-    //       shippingInfo: {
-    //         ...prevState.shippingInfo,
-    //         [name]: value
-    //       }
-    //     }))
-    //   } else if (name === 'postcode') {
-    //     if (value.length <= 5) {
-    //       this.setState((prevState) => ({ 
-    //         shippingInfo: {
-    //           ...prevState.shippingInfo,
-    //           [name]: value
-    //         }
-    //       }))
-    //     }
-    //   }
-    //   checkForErrors(shippingInfo)
-    // }
+    const handleCCInputData = ({ target: { name, value } }) => {
+      if (value.match(/\d/gi) && value.length && value.length <= 19) {
+        if (name === 'card') {
+          let mask = value.split(' ').join('')
+          if (mask.length) {
+            mask = mask.match(new RegExp('.{1,4}', 'g')).join(' ')
+            this.setState((prevState) => ({
+              paymentInfo: {
+                ...prevState.paymentInfo,
+                [name]: mask,
+              },
+            }))
+          } else {
+            this.setState((prevState) => ({
+              paymentInfo: {
+                ...prevState.paymentInfo,
+                [name]: '',
+              },
+            }))
+          }
+        } else {
+          this.setState((prevState) => ({
+            paymentInfo: {
+              ...prevState.paymentInfo,
+              [name]: value,
+            },
+          }))
+        }
+      } else if (value.length <= 19) {
+        this.setState((prevState) => ({
+          paymentInfo: {
+            ...prevState.paymentInfo,
+            [name]: value,
+          },
+        }))
+      }
+    }
 
-    // const checkForErrors = (request) => {
-    //   const {firstName, surname, zipcode} = request
+    const checkForErrors = (request) => {
+      const {card, cardHolder, expiry, securityCode} = request
 
-    //   shippingInputError.firstName = firstName.length ? [] : [ErrorMessage.firstNameError]
-    //   shippingInputError.lastName = surname.length ? [] : [ErrorMessage.surnameError]
-    //   shippingInputError.zipcode = zipcode.length <= 5 ? [] : [ErrorMessage.postcodeError]
+      paymentInputError.cardError = PaymentService.cardNumberValidation(card)
+      paymentInputError.cardHolderError = PaymentService.onlyTextValidation(cardHolder)
+      paymentInputError.expiryError = PaymentService.cardExpireValidation(expiry)
+      paymentInputError.securityCodeError = PaymentService.securityCodeValidation(3, securityCode)
       
-    //   let noErrors = !shippingInputError.firstName.length && 
-    //                 !shippingInputError.lastName.length &&
-    //                 !shippingInputError.zipcode.length
-    //   this.setState({formHasErrors: noErrors})
-    // }
+      let noErrors = !paymentInputError.cardError.length && 
+                    !paymentInputError.cardHolderError.length &&
+                    !paymentInputError.expiryError.length &&
+                    !paymentInputError.securityCodeError.length
+      this.setState({formHasErrors: noErrors})
+    }
 
-    // const onCheckout = () => {
-    //   updateState('shippingDisplay', false)
-    // }
+    const handleChange = ({ target: { name, value } }) => {
+      if(name === 'expiryMonth') {
+        this.setState((prevState) => ({ 
+          paymentInfo: {
+            ...prevState.paymentInfo,
+            expiry: {
+              ...prevState.paymentInfo.expiry,
+              month: value
+            }
+          }
+        }))
+      } else if(name === 'expiryYear') {
+        this.setState((prevState) => ({ 
+          paymentInfo: {
+            ...prevState.paymentInfo,
+            expiry: {
+              ...prevState.paymentInfo.expiry,
+              year: value
+            }
+          }
+        }))
+      } else {
+        this.setState((prevState) => ({ 
+          paymentInfo: {
+            ...prevState.paymentInfo,
+            [name]: value
+          }
+        }))
+      }
+      
+      checkForErrors(paymentInfo)
+    }
+
+    const onEnterPayment = () => {
+      updateState('paymentDisplay', false)
+      updateState('confirmationDisplay', true)
+      updateState('paymentInformation', paymentInfo)
+    }
     
     const onBackArrow = () => {
       updateState('paymentDisplay', false)
@@ -109,8 +161,8 @@ class ShippingPage extends Component {
     }
 
     return (
-      <div className={style.Container}>
-        <div className={style.HeaderContainer}>
+        <div className={style.Container}>
+          <div className={style.HeaderContainer}>
             <BackArrowButton 
               className={style.CartItemBtn} 
               onBack={onBackArrow}
@@ -122,9 +174,53 @@ class ShippingPage extends Component {
                 />
             </div>
           </div>
-      </div>
+          <div className={style.FormContainer}>
+            <div className={style.InputContainer}>
+              {paymentInputObject.map((item) => (
+                <div className={style.InputForm} key={item.id}>
+                  <label form={item.id}>{item.label}</label>
+                    <Input
+                      type={item.type}
+                      key={item.id}
+                      id={item.id}
+                      name={item.id}
+                      value={item.value}
+                      max={item.max}
+                      onChange={
+                        item.name === 'card'
+                          ? handleCCInputData
+                          : handleChange
+                      }
+                      onBlur={handleChange}
+                      autoComplete='none'
+                    />
+                  <div className={style.Error}>{item.error}</div>
+                </div>
+              ))}
+            </div>
+            <div className={style.CartInformationContainer}>
+              <CartInformation
+                cartInfo={data}
+                onCheckout={onEnterPayment}
+                buttonText={'Payment'}
+                disabled={formHasErrors}
+              />
+              <div>
+                {cart.map((item) => (
+                  <CartItem
+                    data={item}
+                    adjustQty={false}
+                    deleteFromCart={false}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
     )
   }
 }
 
-export default ShippingPage
+export default PaymentPage

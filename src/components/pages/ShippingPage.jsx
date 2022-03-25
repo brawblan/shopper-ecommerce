@@ -64,11 +64,12 @@ class ShippingPage extends Component {
         value: shippingInfo.state,
       },
       {
-        type: 'text',
+        type: 'number',
         id: 'zipcode',
         label: 'Zipcode *',
         error: shippingInputError.zipcode,
         value: shippingInfo.zipcode,
+        max: '99999'
       },
     ]
 
@@ -78,13 +79,22 @@ class ShippingPage extends Component {
     }
 
     const handleChange = ({ target: { name, value } }) => {
+      if (name === 'zipcode' && value.length <= 5) {
+        this.setState((prevState) => ({
+          shippingInfo: {
+            ...prevState.shippingInfo,
+            [name]: value.toUpperCase()
+          }
+        }))
+      } else if (name !== 'zipcode') {
         this.setState((prevState) => ({ 
           shippingInfo: {
             ...prevState.shippingInfo,
             [name]: value.toUpperCase()
           }
         }))
-
+      }
+      
       checkForErrors(shippingInfo)
     }
 
@@ -100,9 +110,9 @@ class ShippingPage extends Component {
       
       let noErrors = !shippingInputError.firstName.length && 
                     !shippingInputError.lastName.length &&
-                    !shippingInputError.zipcode.length &&
+                    !shippingInputError.address.length &&
                     !shippingInputError.city.length &&
-                    !shippingInputError.address.length
+                    !shippingInputError.zipcode.length
       this.setState({formHasErrors: noErrors})
     }
 
@@ -150,6 +160,7 @@ class ShippingPage extends Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       autoComplete='none'
+                      max={item.max}
                     />
                   <div className={style.Error}>{item.error}</div>
                 </div>
