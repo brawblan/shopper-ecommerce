@@ -7,7 +7,7 @@ const BasicInput = ({ type, onBlur, onChange, onFocus, name, value, max }) => {
       type={type}
       name={name}
       min={'1'}
-      max={'5'}
+      max={'99999'}
       value={value}
       onBlur={onBlur}
       onChange={onChange}

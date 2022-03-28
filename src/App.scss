@@ -9,6 +9,10 @@
     @include center();
   }
 
+  .MobileHeader {
+    display: none;
+  }
+
   .DesktopNav {
     position: fixed;
     top: 0;
@@ -198,6 +202,7 @@
     border-radius: 20px;
     margin: 16px 0;
     gap: 10px;
+    box-shadow: 1px 1px 10px #51b1a6;
 
     .ItemImage {
       background: $pearl-bush;
@@ -255,6 +260,25 @@
       background: #f5f7fa;
       border-radius: 13px;
       margin: 0 16px;
+    }
+  }
+
+  .ShippingInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 335px;
+    height: fit-content;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
+    border-radius: 20px;
+    margin: 16px 0;
+    gap: 10px;
+    box-shadow: 1px 1px 10px #51b1a6;
+
+    p {
+      margin: 0;
+      font-weight: 500;
     }
   }
 
@@ -429,6 +453,12 @@ $small: 375px;
 $medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
+  .App {
+    .MobileHeader {
+      display: block;
+    }
+  }
+
   .App .DesktopNav {
     bottom: 0;
     top: revert;

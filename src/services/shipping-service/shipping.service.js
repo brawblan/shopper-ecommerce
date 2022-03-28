@@ -4,7 +4,7 @@ export class ShippingService {
   static nameValidation = (name, value) => {
     if (!value.length) {
       if (name === 'firstName') return [ErrorMessage.firstNameError]
-      if (name === 'lastName') return [ErrorMessage.surnameError]
+      if (name === 'lastName') return [ErrorMessage.lastNameError]
       if (name === 'city') return [ErrorMessage.cityError]
     }
 
@@ -32,7 +32,7 @@ export class ShippingService {
 
   static zipcodeValidation = (value) => {
     if (value.length !== 5) {
-      return [ErrorMessage.postcodeError]
+      return [ErrorMessage.zipcodeError]
     }
     return ''
   }

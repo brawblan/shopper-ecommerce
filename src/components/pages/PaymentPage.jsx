@@ -6,6 +6,7 @@ import BackArrowButton from '../molecules/BackArrowButton'
 import style from './PaymentPage.module.scss'
 import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
 import {PaymentService} from '../../services/payment-service/payment.service'
+import ShippingInfo from '../organisms/ShippingInfo'
 import '../../App.scss'
 
 class PaymentPage extends Component {
@@ -17,12 +18,13 @@ class PaymentPage extends Component {
       securityCodeError: []
     },
     paymentInfo: this.props.paymentInformation,
-    formHasErrors: false
+    formHasErrors: false,
+    inputHasFocus: ''
   }
 
   render() {
     const {data, cart, shippingInformation, paymentInformation, updateState} = this.props
-    const { paymentInfo, paymentInputError, formHasErrors } = this.state
+    const { paymentInfo, paymentInputError, formHasErrors, inputHasFocus } = this.state
 
     const paymentInputObject = [
       {
@@ -44,7 +46,7 @@ class PaymentPage extends Component {
       {
         label: 'Expiry Date (MM/YY)',
         name: 'expiry',
-        // value: paymentInfo.expiry,
+        value: paymentInfo.expiry,
         id: 'expiry',
         type: 'expiryDate',
         error: paymentInputError.expiryError,
@@ -123,6 +125,7 @@ class PaymentPage extends Component {
             }
           }
         }))
+        checkForErrors(paymentInfo)
       } else if(name === 'expiryYear') {
         this.setState((prevState) => ({ 
           paymentInfo: {
@@ -133,6 +136,7 @@ class PaymentPage extends Component {
             }
           }
         }))
+        checkForErrors(paymentInfo)
       } else {
         this.setState((prevState) => ({ 
           paymentInfo: {
@@ -140,6 +144,7 @@ class PaymentPage extends Component {
             [name]: value
           }
         }))
+        checkForErrors(paymentInfo)
       }
       
       checkForErrors(paymentInfo)
@@ -184,6 +189,7 @@ class PaymentPage extends Component {
                       key={item.id}
                       id={item.id}
                       name={item.id}
+                      inputHasFocus={inputHasFocus}
                       value={item.value}
                       max={item.max}
                       onChange={
@@ -215,6 +221,9 @@ class PaymentPage extends Component {
                   />
                 ))}
               </div>
+              <ShippingInfo 
+                shippingInformation={shippingInformation}
+              />
             </div>
           </div>
 

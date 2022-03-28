@@ -27,8 +27,8 @@ export const INIT_CREATE_ACCOUNT = {
   password: '',
   confirmPassword: '',
   firstName: '',
-  surname: '',
-  postcode: '',
+  lastName: '',
+  zipcode: '',
 }
 
 export const INIT_CREDIT_CARD = {
@@ -49,12 +49,18 @@ export const INIT_CHECKOUT_DISABLED = {
 }
 
 export const INIT_SHIPPING_INFORMATION = {
-  firstName: '',
-  lastName: '',
-  address: '',
-  city: '',
-  state: '',
-  zipcode: '',
+  firstName: 'J',
+  lastName: 'J',
+  address: '1 J J',
+  city: 'LKJ',
+  state: 'ALABAMA',
+  zipcode: '32154',
+  // firstName: '',
+  // lastName: '',
+  // address: '',
+  // city: '',
+  // state: '',
+  // zipcode: '',
 }
 
 export const INIT_PAYMENT_INFORMATION = {

@@ -14,8 +14,8 @@ render() {
   const { type, max, initial, error, success, name, onBlur, onChange, value } = this.props
   const {inputHasFocus} = this.state
 
-  const hasFocus = (e) => {
-    this.setState({ inputHasFocus: e})
+  const hasFocus = (name) => {
+    this.setState({ inputHasFocus: name})
   }
 
   const handleBlur = (e) => {
@@ -40,7 +40,7 @@ render() {
           <>
             <select className='BasicInput' onFocus={(e) => hasFocus(name)} onBlur={handleBlur} onChange={onChange} name={name} id="select">
               {states.map(({state}) => (
-                <option value={state} key={state}>{state}</option>
+                <option defaultValue={value === state.toUpperCase()} value={state} key={state}>{state}</option>
               ))}
             </select>
           </>
@@ -51,20 +51,26 @@ render() {
               className='SelectRoot'
               name={'expiryMonth'}
               id={name}
+              
+              onFocus={(e) => hasFocus(name)} 
+              onBlur={handleBlur}
               onChange={onChange}
-            >
+              >
               {expMonth.map((month) => (
-                <option value={month}>{month}</option>
-              ))}
+                <option value={month} key={month}>{month}</option>
+                ))}
             </select>
             <select
               className='SelectRoot'
               name={'expiryYear'}
               id={name}
+              
+              onFocus={(e) => hasFocus(name)} 
+              onBlur={handleBlur}
               onChange={onChange}
             >
               {expYear.map((year) => (
-                <option value={year}>{year}</option>
+                <option value={year} key={year}>{year}</option>
               ))}
             </select>
           </div>

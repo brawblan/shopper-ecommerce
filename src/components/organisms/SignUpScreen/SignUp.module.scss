@@ -1,10 +1,10 @@
-@import './src/defaults';
+@import '../../../defaults';
 
 .SignUpContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: var(--borderRadius);
+  // border-radius: var(--borderRadius);
   margin: 1rem auto 0;
   padding: 1rem;
   max-width: 84vw;
@@ -14,6 +14,11 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 0 1rem;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
   }
 
   .InputForm {
@@ -28,14 +33,13 @@
       display: flex;
       align-items: center;
       border: 1px solid black;
-      border-radius: var(--borderRadius);
       background: transparent;
       padding: 2px;
     }
     .Checkbox {
       position: absolute;
-      top: 52px;
-      right: 44px;
+      top: 47%;
+      right: 16%;
     }
     input[type='checkbox'] {
       display: none;
@@ -49,10 +53,7 @@
     }
 
     .CheckoutBtn {
-      border-radius: var(--borderRadius);
       padding: 0.3rem;
-      background: var(--btnStatic);
-      color: var(--btnColor);
       font-weight: bold;
     }
     .CheckoutBtn:hover {
@@ -72,8 +73,8 @@
     }
 
     .Error {
-      color: var(--error);
-      font-size: 0.5rem;
+      color: $error;
+      font-size: 0.75rem;
       max-width: 190px;
     }
   }

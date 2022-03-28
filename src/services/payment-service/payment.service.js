@@ -37,8 +37,14 @@ export class PaymentService {
   }
 
   static cardExpireValidation = (value) => {
-    if (value) {
-      if (/^(0[1-9]|1[0-2])\/[0-9]{2}$/i.test(value.trim())) {
+    let valueDate
+    if (Number(value.month) < 10) {
+      valueDate = `0${value.month}/${Number(value.year) - 2000}`
+    } else {
+      valueDate = `${value.month}/${Number(value.year) - 2000}`
+    }
+    if (valueDate) {
+      if (/^(0[1-9]|1[0-2])\/[0-9]{2}$/i.test(valueDate.trim())) {
         let today = new Date()
         const date = `${today.getFullYear()}-${today.getMonth() + 1}-${new Date(
           today.getFullYear(),
@@ -46,9 +52,9 @@ export class PaymentService {
           0,
         ).getDate()}`
         let currentDate = moment(new Date(date))
-        // let visaValue = value.split('/')
-        let visaValue = [value.month, value.year]
+        let visaValue = valueDate.split('/')
         let visaDate = new Date(`20${visaValue[1]}`, visaValue[0], 0)
+
         return currentDate < moment(visaDate)
           ? []
           : [ErrorMessage.enterDateError]
@@ -59,6 +65,10 @@ export class PaymentService {
   }
 
   static securityCodeValidation = (min, value) => {
-    return value && value.length < min ? [ErrorMessage.securityCodeError] : []
+    if (value.length) {
+      return value && value.length < min ? [ErrorMessage.securityCodeError] : []
+    }
+
+    return [ErrorMessage.securityCodeError]
   }
 }

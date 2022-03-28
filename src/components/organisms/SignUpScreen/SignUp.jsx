@@ -6,6 +6,7 @@ import PasswordEye from '../../assets/PasswordEye'
 import Button from '../../atoms/Button'
 import Input from '../../molecules/Input'
 import {ErrorMessage} from '../../../utils/error-message.class.js'
+import {CreateAccountService} from '../../../services/create-account-service/create-account.service'
 
 class SignUp extends Component {
   constructor(props) {
@@ -17,10 +18,10 @@ class SignUp extends Component {
       formHasErrors: true,
       errorMessage: {
         firstName: [],
-        surname: [],
+        lastName: [],
         password: [],
         email: [],
-        postcode: [],
+        zipcode: [],
       }
     }
   }
@@ -62,14 +63,14 @@ class SignUp extends Component {
     }
 
     const handleChange = ({ target: { name, value } }) => {
-      if (name !== 'postcode') {
+      if (name !== 'zipcode') {
         this.setState((prevState) => ({ 
           newUserInfo: {
             ...prevState.newUserInfo,
             [name]: value
           }
         }))
-      } else if (name === 'postcode') {
+      } else if (name === 'zipcode') {
         if (value.length <= 5) {
           this.setState((prevState) => ({ 
             newUserInfo: {
@@ -83,20 +84,20 @@ class SignUp extends Component {
     }
 
     const checkForErrors = (request) => {
-      const {firstName, surname, password, email, postcode} = request
-      console.log('email:', email);
+      const {firstName, lastName, password, confirmPassword, email, zipcode} = request
 
-      errorMessage.firstName = firstName.length ? [] : [ErrorMessage.firstNameError]
-      errorMessage.surname = surname.length ? [] : [ErrorMessage.surnameError]
-      errorMessage.password = password.length ? [] : [ErrorMessage.passwordError]
-      errorMessage.email = email.length ? [] : [ErrorMessage.emailError]
-      errorMessage.postcode = postcode.length <= 5 ? [] : [ErrorMessage.postcodeError]
+      errorMessage.firstName = CreateAccountService.validateName(firstName, 'first name')
+      errorMessage.lastName = CreateAccountService.validateName(lastName, 'last name')
+      errorMessage.password = CreateAccountService.validatePassword(password, true)
+      errorMessage.confirmPassword = CreateAccountService.validatePassword(confirmPassword, false)
+      errorMessage.email = CreateAccountService.validateEmail(email)
+      errorMessage.zipcode = zipcode.length <= 5 ? [] : [ErrorMessage.zipcodeError]
       
       let noErrors = !errorMessage.firstName.length && 
-                    !errorMessage.surname.length &&
+                    !errorMessage.lastName.length &&
                     !errorMessage.password.length &&
                     !errorMessage.email.length &&
-                    !errorMessage.postcode.length
+                    !errorMessage.zipcode.length
       this.setState({formHasErrors: noErrors})
     }
 
@@ -110,10 +111,10 @@ class SignUp extends Component {
       },
       {
         type: 'text',
-        id: 'surname',
+        id: 'lastName',
         label: 'Last Name *',
-        error: errorMessage.surname,
-        value: newUserInfo.surname,
+        error: errorMessage.lastName,
+        value: newUserInfo.lastName,
       },
       {
         type: 'password',
@@ -142,9 +143,9 @@ class SignUp extends Component {
       },
       {
         type: 'number',
-        id: 'postcode',
+        id: 'zipcode',
         label: 'Zipcode *',
-        value: newUserInfo.postcode,
+        value: newUserInfo.zipcode,
       },
     ]
 
@@ -158,7 +159,7 @@ class SignUp extends Component {
         createAccount.password,
         true,
       )
-      this.props.onClick('homepageScreen')
+      this.props.handleSignInBtn('homepageScreen', [newUserInfo])
     }
 
     return (
@@ -217,7 +218,6 @@ class SignUp extends Component {
           ))}
           <Button
             text={'Create Account'}
-            // onClick={onClick}
             disabled={formHasErrors}
             type='submit'
           />

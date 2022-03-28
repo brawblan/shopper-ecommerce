@@ -25,6 +25,15 @@ class Validate {
     }
     return error
   }
+
+  static usernamePasswordMatch = (usersArr, inputUsername, inputPassword) => {
+    const currentUser = usersArr.filter((user) => {
+      if(user.username === inputUsername && user.password === inputPassword) {
+        return user
+      }
+    })
+    return currentUser
+  }
 }
 
 class SignIn extends Component {
@@ -161,14 +170,9 @@ class SignIn extends Component {
       e.preventDefault()
       const validation = signInValidation()
       if (validation) {
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            signedIn: true,
-          },
-        }))
-        updateState('signIn', this.state.userInfo)
-        updateNestedState('signIn', 'signedIn', true)
+        const currentUser = Validate.usernamePasswordMatch(usersArr, username, password)
+        updateState('shippingInformation', currentUser)
+        onClick(e, currentUser)
       }
     }
 
@@ -244,7 +248,7 @@ class SignIn extends Component {
               !username.length ||
               !password.length
             }
-            onClick={onClick}
+            onClick={onSignIn}
             type='submit'
           />
         </form>

@@ -23,12 +23,14 @@ import AccountPage from './components/pages/AccountPage'
 import ShippingPage from './components/pages/ShippingPage'
 import CartPage from './components/pages/CartPage'
 import PaymentPage from './components/pages/PaymentPage'
+import ConfirmationPage from './components/pages/ConfirmationPage'
 import { users } from './utils/users'
 
 const products = new CommerceAPI()
 
 class App extends Component {
   state = {
+    isLoading: false,
     toggleSignIn: true,
     display: INIT_DISPLAY,
     navBarActiveButton: INIT_NAVBAR,
@@ -38,30 +40,33 @@ class App extends Component {
     productCardDisplay: false,
     productSelected: [],
     cart: [],
-    cartDisplay: false,
-    shippingDisplay: false,
     shippingInformation: INIT_SHIPPING_INFORMATION,
-    paymentDisplay: false,
     paymentInfo: INIT_PAYMENT_INFORMATION,
     cartItems: [],
     cartPriceInfo: {},
     isDisabled: INIT_CHECKOUT_DISABLED,
+    cartDisplay: false,
+    shippingDisplay: false,
+    paymentDisplay: false,
+    confirmationDisplay: false,
   }
 
   async componentDidMount() {
+    this.setState({ isLoading: true })
     products.fetchCommerceApiData().then(
       (res) => {
         if (res && res.res.ok) {
           const dataArr = res.data
           this.setState({
             productData: dataArr,
+            isLoading: false,
           })
         } else {
           return 'error'
         }
       },
       (error) => {
-        console.log(error)
+        console.error(error)
       },
     )
   }
@@ -70,18 +75,15 @@ class App extends Component {
     this.setState({ toggleSignIn: !this.state.toggleSignIn })
   }
 
-  handleSignInBtn = (value) => {
+  handleSignInBtn = (value, user) => {
     this.setState((prevState) => ({
       signIn: { signedIn: true },
-      display: {
-        ...prevState.display,
-        [value]: '',
-      },
       cartItems: this.state.productData,
       isDisabled: {
         ...prevState.isDisabled,
         cartCheckout: false,
       },
+      shippingInformation: user[0],
     }))
   }
 
@@ -113,8 +115,8 @@ class App extends Component {
         this.setState((prevState) => ({
           error: { ...prevState.error, [`${name}Error`]: errorText },
         }))
-      } else if (name === 'surname') {
-        errorText = validateName(value, 'surname')
+      } else if (name === 'lastName') {
+        errorText = validateName(value, 'lastName')
         this.setState((prevState) => ({
           error: { ...prevState.error, [`${name}Error`]: errorText },
         }))
@@ -297,6 +299,26 @@ class App extends Component {
     this.setState({ cartDisplay: !this.state.cartDisplay })
   }
 
+  resetApp = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      toggleSignIn: true,
+      display: INIT_DISPLAY,
+      navBarActiveButton: INIT_NAVBAR,
+      paymentInfo: INIT_PAYMENT_INFORMATION,
+      isDisabled: INIT_CHECKOUT_DISABLED,
+      productSelected: [],
+      cart: [],
+      cartItems: [],
+      cartPriceInfo: {},
+      cartDisplay: false,
+      shippingDisplay: false,
+      productCardDisplay: false,
+      paymentDisplay: false,
+      confirmationDisplay: false,
+    }))
+  }
+
   render() {
     const {
       display,
@@ -304,19 +326,24 @@ class App extends Component {
       navBarActiveButton,
       cart,
       cartPriceInfo,
-      cartDisplay,
       productCardDisplay,
       productSelected,
-      shippingDisplay,
       shippingInformation,
-      paymentDisplay,
       paymentInfo,
+      cartDisplay,
+      shippingDisplay,
+      paymentDisplay,
+      confirmationDisplay,
+      isLoading,
     } = this.state
     const cartLength = cart.reduce((acc, val) => {
       return val.qty + acc
     }, 0)
     return (
       <div className='App'>
+        <div className='MobileHeader'>
+          <h1>Shopper App</h1>
+        </div>
         {/*NavBar*/}
         <NavBar
           qty={2}
@@ -338,6 +365,8 @@ class App extends Component {
             productCardDisplay={productCardDisplay}
             shippingDisplay={shippingDisplay}
             paymentDisplay={paymentDisplay}
+            confirmationDisplay={confirmationDisplay}
+            isLoading={isLoading}
           />
         )}
         {/*ProductDetailsPage*/}
@@ -350,6 +379,7 @@ class App extends Component {
             toggleSwitch={this.toggleSwitch}
             data={productData}
             signIn={this.state.signIn}
+            shippingInformation={shippingInformation}
             usersArr={this.state.usersArr}
             display={this.state.display}
             users={this.state.signIn}
@@ -399,6 +429,16 @@ class App extends Component {
             cart={cart}
             shippingInformation={shippingInformation}
             paymentInformation={paymentInfo}
+          />
+        )}
+        {confirmationDisplay && (
+          <ConfirmationPage
+            data={cartPriceInfo}
+            cart={cart}
+            updateState={this.updateState}
+            shippingInformation={shippingInformation}
+            paymentInformation={paymentInfo}
+            resetApp={this.resetApp}
           />
         )}
 

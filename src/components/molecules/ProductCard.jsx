@@ -1,13 +1,32 @@
 import React from 'react'
 import ProductImage from './ProductImage'
 
-const ProductCard = ({ data, categoryDisplay, addToCart, selectProduct }) => {
+const ProductCard = ({ data, categoryDisplay, addToCart, selectProduct, searchInput }) => {
   const { category, name, price, image, id, inCart } = data
-  const display =
+  let searchName
+  if (name) {
+    searchName = name.toLowerCase()
+  }
+  let lowerSearchInput
+  if (searchInput) {
+    lowerSearchInput = searchInput.toLowerCase()
+  }
+
+  let display =
     categoryDisplay === category || categoryDisplay === 'All' ? '' : 'none'
 
+  if (name && searchInput) {
+    if (searchInput.length && !searchName.includes(lowerSearchInput)) {
+      display = 'none'
+    }
+  }
+
   return (
-    <div className='Card Center Product' style={{ display: `${display}` }} onClick={(e) => selectProduct(data)}>
+    <div 
+      className='Card Center Product' 
+      style={{ display: `${display}` }} 
+      onClick={(e) => selectProduct(data)}
+    >
       <ProductImage
         image={image}
         classProp={''}

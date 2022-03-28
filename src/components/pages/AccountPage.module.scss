@@ -3,6 +3,14 @@
   height: 100%;
   position: relative;
   top: 100px;
+
+  .Header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
 }
 
 $small: 375px;
