@@ -32,8 +32,8 @@ export const users = [
   {
     username: 'bb',
     password: 'bb',
-    firstName: '',
-    lastName: '',
+    firstName: 'Beandon',
+    lastName: 'Bstein',
     address: '123 Street Drive',
     city: 'Austin',
     state: 'Texas',

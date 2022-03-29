@@ -3,62 +3,60 @@ import style from './SignIn.module.scss'
 import PasswordEye from '../../assets/PasswordEye'
 import Button from '../../atoms/Button'
 import Input from '../../molecules/Input'
-
-class Validate {
-  constructor(userInfo, userTyped, usersArr) {
-    this.userInfo = userInfo
-    this.userTyped = userTyped
-    this.usersArr = usersArr
-  }
-
-  static validate = (userInfo, userTyped, usersArr) => {
-    let error = []
-    switch (userInfo) {
-      case 'username':
-        usersArr.filter(({ username }) => error.push(username === userTyped))
-        break
-      case 'password':
-        usersArr.filter(({ password }) => error.push(password === userTyped))
-        break
-      default:
-        break
-    }
-    return error
-  }
-
-  static usernamePasswordMatch = (usersArr, inputUsername, inputPassword) => {
-    const currentUser = usersArr.filter((user) => {
-      if(user.username === inputUsername && user.password === inputPassword) {
-        return user
-      }
-    })
-    return currentUser
-  }
-}
+import { ErrorMessage } from '../../../utils/error-message.class'
+import {SignInService} from '../../../services/sign-in-service/sign-in.service'
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      fill: 'grey',
-      userInfo: this.props.users,
-      usernameTouched: false,
-      passwordTouched: false,
+  state = {
+    fill: 'grey',
+    userInfo: this.props.users,
+    newUserInfo: {
+      username: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              username: {
+                ...prevState.newUserInfo.username,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      password: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              password: {
+                ...prevState.newUserInfo.password,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      }
     }
   }
-
+  
   render() {
-    const { username, password, invalidUsername, invalidPassword } =
-      this.state.userInfo
-    const { usernameTouched, passwordTouched } = this.state
+    const { newUserInfo } = this.state
+    const {username, password} = newUserInfo
     const {
       isDisabled,
-      updateNestedState,
-      updateState,
-      onClick,
       users,
       toggleSwitch,
       usersArr,
+      onClick
     } = this.props
 
     const canSeePassword = () => {
@@ -75,104 +73,81 @@ class SignIn extends Component {
       }
     }
 
-    const usernameValidate = Validate.validate('username', username, usersArr)
-    const passwordValidate = Validate.validate('password', password, usersArr)
-
     const signInInputs = [
       {
         type: 'text',
         label: 'Username',
+        value: username.value ?? '',
         id: 'username',
-        error: invalidUsername,
+        error: username.error,
       },
       {
         type: 'password',
         label: 'Password',
+        value: password.value ?? '',
         id: 'password',
-        error: invalidPassword,
+        error: password.error,
         svg: true,
       },
     ]
 
     const handleChange = ({ target: { name, value } }) => {
-      this.setState((prevState) => ({
-        userInfo: {
-          ...prevState.userInfo,
-          [name]: value,
-        },
-      }))
       if (name === 'username') {
-        this.setState({ usernameTouched: true })
+        username.onUpdate(value)
       }
       if (name === 'password') {
-        this.setState({ passwordTouched: true })
-      }
-      updateNestedState('signIn', name, value)
-      signInValidation()
-    }
-
-    const signInValidation = () => {
-      let indexOfUsernameValidate = usernameValidate.indexOf(true)
-      let indexOfPasswordValidate = passwordValidate.indexOf(true)
-
-      if (!usernameValidate.includes(true)) {
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            invalidUsername: 'Username cannot be found',
-          },
-        }))
-      } else {
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            invalidUsername: '',
-          },
-        }))
-      }
-      if (!passwordValidate.includes(true)) {
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            invalidPassword: 'Password cannot be found',
-          },
-        }))
-      } else {
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            invalidPassword: '',
-          },
-        }))
-      }
-
-      if (indexOfPasswordValidate !== indexOfUsernameValidate) {
-        updateNestedState('isDisabled', 'signInBtn', true)
-        this.setState((prevState) => ({
-          userInfo: {
-            ...prevState.userInfo,
-            invalidPassword: 'Password and Username do not match',
-          },
-        }))
-      } else if (
-        indexOfPasswordValidate === indexOfUsernameValidate &&
-        indexOfPasswordValidate !== -1 &&
-        indexOfUsernameValidate !== -1
-      ) {
-        updateNestedState('isDisabled', 'signInBtn', false)
-        return (
-          usernameValidate.includes(true) && passwordValidate.includes(true)
-        )
+        password.onUpdate(value)
       }
     }
 
+    const validateForm = (request) => {
+      const {username: {value: usernameValue}, password: {value: passwordValue}} = request
+      const usernameValidation = SignInService.checkIfUsernameExists(usersArr, usernameValue)
+      const passwordValidation = SignInService.checkIfPasswordExists(usersArr, passwordValue)
+      
+      return {usernameValidation, passwordValidation}
+    }
+    
     const onSignIn = (e) => {
       e.preventDefault()
-      const validation = signInValidation()
-      if (validation) {
-        const currentUser = Validate.usernamePasswordMatch(usersArr, username, password)
-        updateState('shippingInformation', currentUser)
-        onClick(e, currentUser)
+      const validate = validateForm({username, password})
+      const {usernameValidation, passwordValidation} = validate
+      
+      this.setState((prevState) => ({
+        newUserInfo: {
+          ...prevState.newUserInfo,
+          username: {
+            ...prevState.newUserInfo.username,
+            error: usernameValidation ? [] : [ErrorMessage.usernameError]
+          },
+          password: {
+            ...prevState.newUserInfo.password,
+            error: passwordValidation ? [] : [ErrorMessage.passwordError]
+          }
+        }
+      }))
+
+      if (usernameValidation && passwordValidation) {
+        const logInValidation = SignInService.usernameAndPasswordMatch(usersArr, username, password)
+        
+        if (logInValidation.length) {
+          const user = SignInService.getUser(usersArr, username.value)
+          onClick('', user)
+        } else if (!logInValidation.length) {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              username: {
+                ...prevState.newUserInfo.username,
+                error: [ErrorMessage.usernamePasswordMatchError]
+              },
+              password: {
+                ...prevState.newUserInfo.password,
+                error: [ErrorMessage.usernamePasswordMatchError]
+              }
+            }
+          }))
+        }
       }
     }
 
@@ -201,11 +176,11 @@ class SignIn extends Component {
                     }
                     key={item.id}
                     onChange={handleChange}
-                    onBlur={signInValidation}
+                    onBlur={handleChange}
                     autoComplete={'off'}
-                    initial={!usernameTouched}
-                    success={!item.error && usernameTouched}
-                    error={item.error}
+                    initial={!username.touched}
+                    success={!item.error && username.touched}
+                    error={!!item.error.length}
                   />
                 ) : (
                   <>
@@ -223,11 +198,11 @@ class SignIn extends Component {
                       }
                       key={item.id}
                       onChange={handleChange}
-                      onBlur={signInValidation}
+                      onBlur={handleChange}
                       autoComplete={'off'}
-                      initial={!passwordTouched}
-                      success={!item.error && passwordTouched}
-                      error={item.error}
+                      initial={!password.touched}
+                      success={!item.error && password.touched}
+                      error={!!item.error.length}
                     />
                     <PasswordEye
                       style={style.Checkbox}
@@ -243,10 +218,8 @@ class SignIn extends Component {
           <Button
             text={'Sign In'}
             disabled={
-              invalidUsername.length ||
-              invalidPassword.length ||
-              !username.length ||
-              !password.length
+              !(username.touched &&
+              password.touched)
             }
             onClick={onSignIn}
             type='submit'

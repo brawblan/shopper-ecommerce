@@ -6,7 +6,7 @@ export class CreateAccountService {
     if (users.some(({ username }) => username === entryEmail)) {
       return [ErrorMessage.emailAlreadyInUseError]
     }
-    return ''
+    return []
   }
 
   static validateEmail = (val) => {
@@ -17,13 +17,14 @@ export class CreateAccountService {
     ) {
       return [ErrorMessage.invalidEmail]
     }
-    this.userExists(val)
+    return []
+    // this.userExists(val)
   }
 
-  static validatePassword = (password, bool) => {
+  static validatePassword = (password, bool, confirmPassword) => {
     if (bool) {
       if (!password.length) {
-        return [ErrorMessage.passwordError]
+        return [ErrorMessage.passwordCreationError]
       }
       if (password.length) {
         if (
@@ -31,29 +32,44 @@ export class CreateAccountService {
             password,
           )
         ) {
-          return ''
+          return []
         }
-        return [ErrorMessage.passwordError]
+        return [ErrorMessage.passwordCreationError]
       }
     } else if (!bool) {
-      if (!password.length) {
+      if (!confirmPassword.length || password !== confirmPassword) {
         return [ErrorMessage.passwordMatchError]
       }
-      return ''
+      return []
     }
-  }
-
-  static checkPasswordMatch = (password, confirmPassword) => {
-    if (password !== confirmPassword) {
-      return 'Passwords do not match'
-    }
-    return ''
   }
 
   static validateName = (name, type) => {
-    if (/\b[A-Za-z][A-Za-z]+$/g.test(name)) {
-      return ''
+    if (type === 'state') {
+      if (name === 'List of States') {
+        return [ErrorMessage.stateSelectionError]
+      }
     }
-    return `Please enter your ${type}. There can be no numbers`
+    if (/\b[A-Za-z][A-Za-z]+$/g.test(name)) {
+      return []
+    }
+    return [`Please enter your ${type}. There can be no numbers`]
+  }
+
+  static createUserObject = (userData) => {
+    const { firstName, lastName, password, email, city, state, zipcode } =
+      userData
+    const payload = {
+      username: firstName.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      password: password.value,
+      email: email.value,
+      city: city.value,
+      state: state.value.toUpperCase(),
+      zipcode: zipcode.value,
+    }
+
+    return payload
   }
 }
