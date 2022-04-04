@@ -5,9 +5,11 @@ import BackArrowButton from '../molecules/BackArrowButton'
 import style from './PaymentPage.module.scss'
 import CartItemBtnPlus from '../molecules/CartItemBtnPlus'
 import ShippingInfo from '../organisms/ShippingInfo'
+import PaymentInfo from '../organisms/PaymentInfo'
 import '../../App.scss'
 
 const ConfirmationPage = ({data, cart, shippingInformation, paymentInformation, updateState, resetApp}) => {
+  
   const onConfirmOrder = () => {
     updateState('paymentDisplay', false)
     updateState('confirmationDisplay', true)
@@ -51,6 +53,9 @@ const ConfirmationPage = ({data, cart, shippingInformation, paymentInformation, 
             </div>
             <ShippingInfo 
               shippingInformation={shippingInformation}
+            />
+            <PaymentInfo 
+              paymentInformation={paymentInformation}
             />
             <CartInformation
               cartInfo={data}

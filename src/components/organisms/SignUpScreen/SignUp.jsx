@@ -156,14 +156,9 @@ class SignUp extends Component {
   }
 
   render() {
-    const {
-      // handleSignUp,
-      // createAccount,
-      // error,
+    const {      
       users,
       isDisabled,
-      // updateNestedState,
-      // updateDoubleNestedState,
       toggleSwitch,
     } = this.props
 
@@ -238,7 +233,7 @@ class SignUp extends Component {
                     !password.error.length &&
                     !email.error.length &&
                     !zipcode.error.length
-      this.setState({formHasErrors: noErrors})
+      this.setState({formHasErrors: !noErrors})
     }
 
     const createAccountInputs = [
@@ -310,15 +305,6 @@ class SignUp extends Component {
         const newUser = CreateAccountService.createUserObject({firstName, lastName, password, confirmPassword, email, city, state, zipcode})
         this.props.handleSignInBtn('homepageScreen', [newUser])
       }
-
-      // updateDoubleNestedState(
-      //   'usersArr',
-      //   'username',
-      //   createAccount.email,
-      //   'password',
-      //   createAccount.password,
-      //   true,
-      // )
     }
 
     return (
@@ -326,7 +312,7 @@ class SignUp extends Component {
         className={style.SignUpContainer}
         style={{ display: users.signedIn }}
       >
-        <form className={style.SignUpForm} onSubmit={onCreateAccount}>
+        <form className={style.SignUpForm}>
           {createAccountInputs.map((item) => (
             <div className={style.InputForm} key={item.id}>
               <label form={item.id}>{item.label}</label>
@@ -374,23 +360,24 @@ class SignUp extends Component {
               </>
               <div className={style.Error}>{item.error}</div>
             </div>
-          ))}
-          <Button
-            text={'Create Account'}
-            disabled={
-              !(firstName.touched &&
-                lastName.touched &&
-                password.touched &&
-                confirmPassword.touched &&
-                email.touched &&
-                city.touched &&
-                state.touched &&
-                zipcode.touched  
-              )
-            }
-            type='submit'
-          />
+          ))}          
         </form>
+        <Button
+          text={'Create Account'}
+          disabled={
+            !(firstName.touched &&
+              lastName.touched &&
+              password.touched &&
+              confirmPassword.touched &&
+              email.touched &&
+              city.touched &&
+              state.touched &&
+              zipcode.touched  
+            )
+          }
+          type='submit'
+          onClick={onCreateAccount}
+        />
         <button onClick={this.addNothing} className={style.FacebookBtn}>
           sign up with Facebook
         </button>

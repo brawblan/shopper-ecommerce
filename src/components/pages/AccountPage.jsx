@@ -17,6 +17,7 @@ const AccountPage = ({
   handleSignUp,
   handleHomeScreenBtn,
   updateDoubleNestedState,
+  updateSimplyNestedState,
   toggle,
   toggleSwitch,
   handleSignOut,
@@ -46,23 +47,13 @@ const AccountPage = ({
                 usersArr={usersArr}
                 users={signIn}
                 isDisabled={isDisabled}
-                createAccount={createAccount}
-                updateNestedState={updateNestedState}
-                updateState={updateState}
                 onClick={handleSignInBtn}
               />
-            ) : (
+                ) : (
               <SignUp
-                toggleSwitch={toggleSwitch}
                 users={signIn}
-                error={''}
-                createAccount={createAccount}
                 isDisabled={isDisabled}
-                handleSignInBtn={handleSignInBtn}
-                handleSignUp={handleSignUp}
-                backToSignIn={handleHomeScreenBtn}
-                updateNestedState={updateNestedState}
-                updateDoubleNestedState={updateDoubleNestedState}
+                toggleSwitch={toggleSwitch}    
               />
             )}
           </>

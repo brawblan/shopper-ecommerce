@@ -41,7 +41,7 @@ class App extends Component {
     productSelected: [],
     cart: [],
     shippingInformation: INIT_SHIPPING_INFORMATION,
-    paymentInfo: INIT_PAYMENT_INFORMATION,
+    paymentInformation: INIT_PAYMENT_INFORMATION,
     cartItems: [],
     cartPriceInfo: {},
     isDisabled: INIT_CHECKOUT_DISABLED,
@@ -84,6 +84,10 @@ class App extends Component {
         cartCheckout: false,
       },
       shippingInformation: user[0],
+      usersArr: {
+        ...prevState.usersArr,
+        [this.state.usersArr.length]: user[0]
+      }
     }))
   }
 
@@ -205,6 +209,13 @@ class App extends Component {
     this.setState({
       [name]: state,
     })
+  }
+
+  updateSimplyNestedState = (name, state) => {
+    const newUsersArr = this.state.usersArr.push(state)
+    this.setState((prevState) => ({
+      [name]: newUsersArr
+    }))
   }
 
   updateNestedState = (name, sub, state) => {
@@ -329,7 +340,7 @@ class App extends Component {
       productCardDisplay,
       productSelected,
       shippingInformation,
-      paymentInfo,
+      paymentInformation,
       cartDisplay,
       shippingDisplay,
       paymentDisplay,
@@ -392,6 +403,7 @@ class App extends Component {
             handleSignUp={this.handleSignUp}
             backToSignIn={this.handleHomeScreenBtn}
             updateDoubleNestedState={this.updateDoubleNestedState}
+            updateSimplyNestedState={this.updateSimplyNestedState}
             handleSignOut={this.handleSignOut}
           />
         )}
@@ -428,7 +440,7 @@ class App extends Component {
             updateState={this.updateState}
             cart={cart}
             shippingInformation={shippingInformation}
-            paymentInformation={paymentInfo}
+            paymentInformation={paymentInformation}
           />
         )}
         {confirmationDisplay && (
@@ -437,7 +449,7 @@ class App extends Component {
             cart={cart}
             updateState={this.updateState}
             shippingInformation={shippingInformation}
-            paymentInformation={paymentInfo}
+            paymentInformation={paymentInformation}
             resetApp={this.resetApp}
           />
         )}

@@ -36,7 +36,9 @@
 
   .Container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     overflow: hidden;
   }
 
@@ -51,24 +53,6 @@
     overflow: scroll;
     padding: 0 0.75rem;
   }
-
-  // .InfoContainer {
-  //   display: flex;
-  //   flex-direction: column;
-  //   height: fit-content;
-  //   margin: 1rem auto;
-  //   border-radius: 1rem;
-  //   box-shadow: 1px 1px 10px #51b1a6;
-  //   padding: 1rem 0.75rem;
-
-  //   button {
-  //     margin: 1rem auto 0;
-  //   }
-
-  //   .PriceContainer {
-  //     text-align: left;
-  //   }
-  // }
 }
 
 $small: 375px;

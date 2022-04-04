@@ -18,7 +18,6 @@ export class CreateAccountService {
       return [ErrorMessage.invalidEmail]
     }
     return []
-    // this.userExists(val)
   }
 
   static validatePassword = (password, bool, confirmPassword) => {

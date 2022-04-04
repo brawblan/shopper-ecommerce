@@ -211,16 +211,14 @@ class PaymentPage extends Component {
                 buttonText={'Payment'}
                 disabled={formHasErrors}
               />
-              <div>
-                {cart.map((item) => (
-                  <CartItem
-                    data={item}
-                    adjustQty={false}
-                    deleteFromCart={false}
-                    key={item.id}
-                  />
-                ))}
-              </div>
+              {cart.map((item) => (
+                <CartItem
+                  data={item}
+                  adjustQty={false}
+                  deleteFromCart={false}
+                  key={item.id}
+                />
+              ))}
               <ShippingInfo 
                 shippingInformation={shippingInformation}
               />

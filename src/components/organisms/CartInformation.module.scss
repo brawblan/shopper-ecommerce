@@ -21,7 +21,7 @@ $medium: 425px;
 $large: 768px;
 $xlarge: 1024px;
 
-@media (max-width: $xlarge) {
+@media (max-width: $large) {
   .InfoContainer {
     position: absolute;
     bottom: 1rem;
