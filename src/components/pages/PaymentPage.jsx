@@ -11,149 +11,194 @@ import '../../App.scss'
 
 class PaymentPage extends Component {
   state = {
-    paymentInputError: {
-      cardError: [],
-      cardHolderError: [],
-      expiryError: [],
-      securityCodeError: []
+    newCardInformation: {
+      card: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          if (input.match(/\d/gi) && input.length && input.length <= 19) {
+            let mask = input.split(' ').join('')
+            if (mask.length) {
+              mask = mask.match(new RegExp('.{1,4}', 'g')).join(' ')
+              this.setState((prevState) => ({
+                newCardInformation: {
+                  ...prevState.newCardInformation,
+                  card: {
+                    ...prevState.newCardInformation.card,
+                    value: mask,
+                    touched: true
+                  }
+                }
+              }))
+            } else {
+              this.setState((prevState) => ({
+                newCardInformation: {
+                  ...prevState.newCardInformation,
+                  card: {
+                    ...prevState.newCardInformation.card,
+                    value: '',
+                    touched: true
+                  }
+                }
+              }))
+            }
+          } else if (input.length <= 19) {
+            this.setState((prevState) => ({
+              newCardInformation: {
+                ...prevState.newCardInformation,
+                card: {
+                  ...prevState.newCardInformation.card,
+                  value: input,
+                  touched: true
+                }
+              }
+            }))
+          }
+        },
+        error: [],
+      },
+      cardHolder: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newCardInformation: {
+              ...prevState.newCardInformation,
+              cardHolder: {
+                ...prevState.newCardInformation.cardHolder,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      expiry: {
+        value: {
+          expiryMonth: '',
+          expiryYear: ''
+        },
+        touched: false,
+        onUpdate: (type, input) => {
+          this.setState((prevState) => ({
+            newCardInformation: {
+              ...prevState.newCardInformation,
+              expiry: {
+                ...prevState.newCardInformation.expiry,
+                value: {
+                  ...prevState.newCardInformation.expiry.value,
+                  [type]: input
+                },
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      securityCode: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newCardInformation: {
+              ...prevState.newCardInformation,
+              securityCode: {
+                ...prevState.newCardInformation.securityCode,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      }
     },
-    paymentInfo: this.props.paymentInformation,
-    formHasErrors: false,
     inputHasFocus: ''
   }
 
   render() {
-    const {data, cart, shippingInformation, paymentInformation, updateState} = this.props
-    const { paymentInfo, paymentInputError, formHasErrors, inputHasFocus } = this.state
+    const {data, cart, shippingInformation, updateState} = this.props
+    const { newCardInformation, inputHasFocus } = this.state
+    const {card, cardHolder, expiry, securityCode} = newCardInformation
 
     const paymentInputObject = [
       {
         label: 'Card Number',
         name: 'card',
-        value: paymentInfo.card,
+        value: card.value,
         id: 'card',
         type: 'text',
-        error: paymentInputError.cardError,
+        error: card.error,
       },
       {
         label: "CardHolder's Name",
         name: 'cardHolder',
-        value: paymentInfo.cardHolder,
+        value: cardHolder.value,
         id: 'cardHolder',
         type: 'text',
-        error: paymentInputError.cardHolderError,
+        error: cardHolder.error,
       },
       {
         label: 'Expiry Date (MM/YY)',
         name: 'expiry',
-        value: paymentInfo.expiry,
+        value: expiry.value,
         id: 'expiry',
         type: 'expiryDate',
-        error: paymentInputError.expiryError,
+        error: expiry.error,
       },
       {
         label: 'Security Code',
         name: 'securityCode',
-        value: paymentInfo.securityCode,
+        value: securityCode.value,
         id: 'securityCode',
         type: 'number',
-        error: paymentInputError.securityCodeError,
+        error: securityCode.error,
       },
     ]
-
-    const handleCCInputData = ({ target: { name, value } }) => {
-      if (value.match(/\d/gi) && value.length && value.length <= 19) {
-        if (name === 'card') {
-          let mask = value.split(' ').join('')
-          if (mask.length) {
-            mask = mask.match(new RegExp('.{1,4}', 'g')).join(' ')
-            this.setState((prevState) => ({
-              paymentInfo: {
-                ...prevState.paymentInfo,
-                [name]: mask,
-              },
-            }))
-          } else {
-            this.setState((prevState) => ({
-              paymentInfo: {
-                ...prevState.paymentInfo,
-                [name]: '',
-              },
-            }))
-          }
-        } else {
-          this.setState((prevState) => ({
-            paymentInfo: {
-              ...prevState.paymentInfo,
-              [name]: value,
-            },
-          }))
-        }
-      } else if (value.length <= 19) {
-        this.setState((prevState) => ({
-          paymentInfo: {
-            ...prevState.paymentInfo,
-            [name]: value,
-          },
-        }))
-      }
-    }
 
     const checkForErrors = (request) => {
       const {card, cardHolder, expiry, securityCode} = request
 
-      paymentInputError.cardError = PaymentService.cardNumberValidation(card)
-      paymentInputError.cardHolderError = PaymentService.onlyTextValidation(cardHolder)
-      paymentInputError.expiryError = PaymentService.cardExpireValidation(expiry)
-      paymentInputError.securityCodeError = PaymentService.securityCodeValidation(3, securityCode)
+      card.error = PaymentService.cardNumberValidation(card.value)
+      cardHolder.error = PaymentService.onlyTextValidation(cardHolder.value)
+      expiry.error = PaymentService.cardExpireValidation(expiry.value)
+      securityCode.error = PaymentService.securityCodeValidation(3, securityCode.value)
       
-      let noErrors = !paymentInputError.cardError.length && 
-                    !paymentInputError.cardHolderError.length &&
-                    !paymentInputError.expiryError.length &&
-                    !paymentInputError.securityCodeError.length
-      this.setState({formHasErrors: noErrors})
+      let noErrors = !card.error.length && 
+                    !cardHolder.error.length &&
+                    !expiry.error.length &&
+                    !securityCode.error.length
+      
+      return noErrors
     }
 
+    const handleBlur = () => {
+      this.setState({inputHasFocus: ''})
+    }
+    
     const handleChange = ({ target: { name, value } }) => {
       if(name === 'expiryMonth') {
-        this.setState((prevState) => ({ 
-          paymentInfo: {
-            ...prevState.paymentInfo,
-            expiry: {
-              ...prevState.paymentInfo.expiry,
-              month: value
-            }
-          }
-        }))
-        checkForErrors(paymentInfo)
+        expiry.onUpdate(name, value)
       } else if(name === 'expiryYear') {
-        this.setState((prevState) => ({ 
-          paymentInfo: {
-            ...prevState.paymentInfo,
-            expiry: {
-              ...prevState.paymentInfo.expiry,
-              year: value
-            }
-          }
-        }))
-        checkForErrors(paymentInfo)
+        expiry.onUpdate(name, value)
       } else {
-        this.setState((prevState) => ({ 
-          paymentInfo: {
-            ...prevState.paymentInfo,
-            [name]: value
-          }
-        }))
-        checkForErrors(paymentInfo)
+        newCardInformation[name].onUpdate(value)
       }
-      
-      checkForErrors(paymentInfo)
     }
-
+    
     const onEnterPayment = () => {
+      const formHasErrors = checkForErrors(newCardInformation)
+      if(!formHasErrors) {
+        this.setState({inputHasFocus: ''})
+        return
+      }
+
+      const cardInformation = PaymentService.createPaymentObject(newCardInformation)
       updateState('paymentDisplay', false)
       updateState('confirmationDisplay', true)
-      updateState('paymentInformation', paymentInfo)
+      updateState('paymentInformation', cardInformation)
     }
     
     const onBackArrow = () => {
@@ -192,12 +237,8 @@ class PaymentPage extends Component {
                       inputHasFocus={inputHasFocus}
                       value={item.value}
                       max={item.max}
-                      onChange={
-                        item.name === 'card'
-                          ? handleCCInputData
-                          : handleChange
-                      }
-                      onBlur={handleChange}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       autoComplete='none'
                     />
                   <div className={style.Error}>{item.error}</div>
@@ -209,7 +250,7 @@ class PaymentPage extends Component {
                 cartInfo={data}
                 onCheckout={onEnterPayment}
                 buttonText={'Payment'}
-                disabled={formHasErrors}
+                disabled={true}
               />
               {cart.map((item) => (
                 <CartItem

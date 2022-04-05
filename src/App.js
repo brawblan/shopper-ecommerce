@@ -251,11 +251,15 @@ class App extends Component {
     }
   }
 
-  selectProduct = (data) => {
-    this.setState({
-      productCardDisplay: !this.state.productCardDisplay,
-      productSelected: data,
-    })
+  selectProduct = (data, { target: { localName }}) => {
+    if (localName === 'svg' || localName === 'path') {
+      return
+    } else {
+      this.setState({
+        productCardDisplay: !this.state.productCardDisplay,
+        productSelected: data,
+      })
+    }
   }
 
   addToCart = (id) => {

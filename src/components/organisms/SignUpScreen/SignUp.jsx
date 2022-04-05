@@ -135,16 +135,18 @@ class SignUp extends Component {
         value: '',
         touched: false,
         onUpdate: (input) => {
-          this.setState((prevState) => ({
-            newUserInfo: {
-              ...prevState.newUserInfo,
-              zipcode: {
-                ...prevState.newUserInfo.zipcode,
-                value: input,
-                touched: true
+          if(input.length <= 5) {
+            this.setState((prevState) => ({
+              newUserInfo: {
+                ...prevState.newUserInfo,
+                zipcode: {
+                  ...prevState.newUserInfo.zipcode,
+                  value: input,
+                  touched: true
+                }
               }
-            }
-          }))
+            }))
+          }
         },
         error: [],
       },
@@ -184,36 +186,7 @@ class SignUp extends Component {
     }
 
     const handleChange = ({ target: { name, value } }) => {
-      if (name === 'firstName') {
-        firstName.onUpdate(value)
-      }
-      if (name === 'lastName') {
-        lastName.onUpdate(value)
-      }
-      if (name === 'password') {
-        password.onUpdate(value)
-      }
-      if (name === 'confirmPassword') {
-        confirmPassword.onUpdate(value)
-      }
-      if (name === 'email') {
-        email.onUpdate(value)
-      }
-      if (name === 'city') {
-        city.onUpdate(value)
-      }
-      if (name === 'state') {
-        state.onUpdate(value)
-      }
-      if (name === 'zipcode' && value.length <= 5) {
-        zipcode.onUpdate(value)
-      }
-
-      // createAccountInputs.forEach(({id}) => {
-      //   if (name === id) {
-      //     [id].onUpadate(value)
-      //   }
-      // })
+      newUserInfo[name].onUpdate(value)
     }
 
     const checkForErrors = (request) => {

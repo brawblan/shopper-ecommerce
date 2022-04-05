@@ -25,7 +25,7 @@ const ProductCard = ({ data, categoryDisplay, addToCart, selectProduct, searchIn
     <div 
       className='Card Center Product' 
       style={{ display: `${display}` }} 
-      onClick={(e) => selectProduct(data)}
+      onClick={(e) => selectProduct(data, e)}
     >
       <ProductImage
         image={image}

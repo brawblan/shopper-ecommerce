@@ -38,9 +38,9 @@ render() {
         )} 
         {type === 'select' && (
           <>
-            <select className='BasicInput' onFocus={(e) => hasFocus(name)} onBlur={handleBlur} onChange={onChange} name={name} id="select">
+            <select value={value} className='BasicInput' onFocus={(e) => hasFocus(name)} onBlur={handleBlur} onChange={onChange} name={name} id="select">
               {states.map(({state}) => (
-                <option defaultValue={value === state.toUpperCase()} value={state} key={state}>{state}</option>
+                <option value={state} key={state}>{state}</option>
               ))}
             </select>
           </>

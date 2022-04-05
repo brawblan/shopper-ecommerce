@@ -38,10 +38,10 @@ export class PaymentService {
 
   static cardExpireValidation = (value) => {
     let valueDate
-    if (Number(value.month) < 10) {
-      valueDate = `0${value.month}/${Number(value.year) - 2000}`
+    if (Number(value.expiryMonth) < 10) {
+      valueDate = `0${value.expiryMonth}/${Number(value.expiryYear) - 2000}`
     } else {
-      valueDate = `${value.month}/${Number(value.year) - 2000}`
+      valueDate = `${value.expiryMonth}/${Number(value.expiryYear) - 2000}`
     }
     if (valueDate) {
       if (/^(0[1-9]|1[0-2])\/[0-9]{2}$/i.test(valueDate.trim())) {
@@ -70,5 +70,17 @@ export class PaymentService {
     }
 
     return [ErrorMessage.securityCodeError]
+  }
+
+  static createPaymentObject = (request) => {
+    const {card, cardHolder, expiry, securityCode} = request
+    const payload = {
+      card: card.value,
+      cardHolder: cardHolder.value,
+      expiry: expiry.value,
+      securityCode: securityCode.value
+    }
+
+    return payload
   }
 }

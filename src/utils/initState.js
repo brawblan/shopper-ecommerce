@@ -53,7 +53,7 @@ export const INIT_SHIPPING_INFORMATION = {
   lastName: 'J',
   address: '1 J J',
   city: 'LKJ',
-  state: 'ALABAMA',
+  state: 'Alabama',
   zipcode: '32154',
   // firstName: '',
   // lastName: '',

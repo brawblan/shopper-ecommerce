@@ -35,8 +35,8 @@ const ConfirmationPage = ({data, cart, shippingInformation, paymentInformation, 
           <h2>Order Confirmation</h2>
           <div className={style.ExitButton}>
             <CartItemBtnPlus
-                adjustQty={closeModal}
-              />
+              adjustQty={closeModal}
+            />
           </div>
         </div>
         <div className={style.FormContainer}>        

@@ -25,7 +25,10 @@ export class ShippingService {
 
   static stateValidation = (value) => {
     if (!value.length) {
-      return [ErrorMessage.stateError]
+      return [ErrorMessage.stateSelectionError]
+    } else if (value === 'List of States') {
+      console.log(value);
+      return [ErrorMessage.stateSelectionError]
     }
     return ''
   }
@@ -35,5 +38,19 @@ export class ShippingService {
       return [ErrorMessage.zipcodeError]
     }
     return ''
+  }
+
+  static createShippingObject = (request) => {
+    const {firstName, lastName, zipcode, address, city, state} = request
+    const payload = {
+      firstName: firstName.value, 
+      lastName: lastName.value,
+      zipcode: zipcode.value,
+      address: address.value, 
+      city: city.value,
+      state: state.value
+    }
+
+    return payload
   }
 }
