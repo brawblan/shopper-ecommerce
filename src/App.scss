@@ -9,6 +9,10 @@
     @include center();
   }
 
+  .MobileHeader {
+    display: none;
+  }
+
   .DesktopNav {
     position: fixed;
     top: 0;
@@ -70,9 +74,25 @@
     border-radius: 56px;
     border: none;
   }
+  .Button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
   .Button.Disabled {
     color: $subtleText;
     background: $buttonDisabled;
+  }
+  .Button.Disabled:hover {
+    opacity: 1;
+    cursor: default;
+  }
+
+  .Product {
+    transition: transform 0.3s ease-in-out;
+  }
+  .Product:hover {
+    transform: scale(1.1);
+    cursor: pointer;
   }
 
   .Card {
@@ -177,11 +197,12 @@
     padding: 10px;
     width: 335px;
     height: 87px;
-    background: #FFFFFF;
-    border: 1px solid #E1E5EB;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
     border-radius: 20px;
     margin: 16px 0;
     gap: 10px;
+    box-shadow: 1px 1px 10px #51b1a6;
 
     .ItemImage {
       background: $pearl-bush;
@@ -189,7 +210,6 @@
       width: 67px;
       height: 67px;
       position: relative;
-
 
       img {
         width: 56px;
@@ -237,10 +257,46 @@
       padding: 8px;
       width: 36px;
       height: 36px;
-      background: #F5F7FA;
+      background: #f5f7fa;
       border-radius: 13px;
       margin: 0 16px;
     }
+  }
+
+  .ShippingInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 335px;
+    height: fit-content;
+    background: #ffffff;
+    border: 1px solid #e1e5eb;
+    border-radius: 20px;
+    margin: 16px 0;
+    gap: 10px;
+    box-shadow: 1px 1px 10px #51b1a6;
+
+    p {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+
+  .BackArrowBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    background: #f5f7fa;
+    border-radius: 13px;
+    margin: 0 16px;
+    transition: transform 0.3s ease-in-out;
+  }
+  .BackArrowBtn:hover {
+    transform: rotate(360deg);
+    cursor: pointer;
   }
 
   .BasicInput {
@@ -252,8 +308,11 @@
     text-align: left;
     outline: none;
   }
-  .BasicInput:focus {
-    border-radius: 16px;
+
+  .Focus {
+    outline: $success;
+    border: 1px solid $success;
+    box-shadow: 0 0 0.425rem $success;
   }
 
   .Input {
@@ -266,7 +325,7 @@
     background: $white;
     box-sizing: border-box;
     border-radius: 16px;
-    margin: 16px 0;
+    margin: 0.5rem 0 1rem;
     position: relative;
 
     svg {
@@ -276,11 +335,11 @@
   }
   .Input.Success {
     border: 1px solid $success;
-    box-shadow: 0 0 0 4px #E4FFF8;
+    box-shadow: 0 0 0 4px #e4fff8;
   }
   .Input.Error {
     border: 1px solid $error;
-    box-shadow: 0 0 0 4px #FFE4EC;
+    box-shadow: 0 0 0 4px #ffe4ec;
   }
 
   .Navigation {
@@ -301,7 +360,6 @@
   }
   .Navigation.Active {
     background: $primary;
-
   }
 
   .FloatingCartInfo {
@@ -309,11 +367,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    align-self: center;
     padding: 12px 12px 12px 20px;
     width: 334px;
     height: 51px;
     background: $primary;
     border-radius: 16px;
+    margin-bottom: 1rem;
 
     div {
       color: $white;
@@ -324,12 +384,167 @@
     }
   }
 
+  .InputBaseLabel {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin: 0 auto;
+
+    img {
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      width: 50px;
+      height: 33px;
+    }
+    label {
+      width: 200px;
+    }
+
+    .InputRoot,
+    .SelectRoot,
+    .CheckoutBtn,
+    .DisabledBtn {
+      align-items: self-start;
+      border: none;
+      font-size: 1.2rem;
+      width: 100%;
+    }
+    .SelectRoot {
+      width: 50%;
+      min-width: 5rem;
+    }
+
+    .CheckoutBtn {
+      border: var(--btnBorder);
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnStatic);
+      color: var(--btnColor);
+      font-weight: bold;
+    }
+    .CheckoutBtn:hover {
+      background: var(--btnHover);
+      cursor: pointer;
+    }
+    .CheckoutBtn:active {
+      background: var(--btnActive);
+    }
+    .DisabledBtn {
+      border: var(--btnDisabledBorder);
+      border-radius: var(--borderRadius);
+      padding: 0.3rem;
+      background: var(--btnDisabledBackground);
+      color: var(--btnDisabledColor);
+      font-weight: bold;
+      cursor: default;
+    }
+    .Error {
+      color: var(--error);
+      font-size: 14px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  .ldsRoller {
+    display: inline-block;
+    position: absolute;
+    z-index: 10;
+    top: 40vh;
+    left: calc(50% - 40px);
+    width: 80px;
+    height: 80px;
+  }
+  .ldsRoller div {
+    animation: ldsRoller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+  }
+  .ldsRoller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $primary;
+    margin: -4px 0 0 -4px;
+  }
+  .ldsRoller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .ldsRoller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+  }
+  .ldsRoller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .ldsRoller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+  }
+  .ldsRoller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+  .ldsRoller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+  }
+  .ldsRoller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .ldsRoller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+  }
+  .ldsRoller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .ldsRoller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+  }
+  @keyframes ldsRoller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
+  .App {
+    .MobileHeader {
+      display: block;
+    }
+  }
+
   .App .DesktopNav {
     bottom: 0;
     top: revert;
@@ -356,12 +571,6 @@ $large: 768px;
       border-radius: 1rem;
     }
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }
 
 @media (hover: none) {
