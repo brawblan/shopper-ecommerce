@@ -44,12 +44,12 @@ const ConfirmationPage = ({data, cart, shippingInformation, paymentInformation, 
             <div>
               {cart.map((item) => (
                 <CartItem
-                data={item}
-                adjustQty={false}
-                deleteFromCart={false}
-                key={item.id}
+                  data={item}
+                  adjustQty={false}
+                  deleteFromCart={false}
+                  key={item.id}
                 />
-                ))}
+              ))}
             </div>
             <ShippingInfo 
               shippingInformation={shippingInformation}

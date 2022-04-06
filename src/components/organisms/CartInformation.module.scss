@@ -16,24 +16,11 @@
   }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
-$xlarge: 1024px;
-
 @media (max-width: $large) {
   .InfoContainer {
     position: absolute;
     bottom: 1rem;
     left: calc(50% - 108px);
   }
-}
-
-@media (max-width: $large) {
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }

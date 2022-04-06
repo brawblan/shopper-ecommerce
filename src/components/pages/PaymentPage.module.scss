@@ -75,7 +75,6 @@
   }
 }
 
-$small: 375px;
 $medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
@@ -121,7 +120,4 @@ $large: 768px;
     }
     
   }
-}
-
-@media (max-width: $small) {
 }

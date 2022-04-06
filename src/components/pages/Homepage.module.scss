@@ -54,8 +54,6 @@
   }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
   .Container {
@@ -69,10 +67,4 @@ $large: 768px;
       }
     }
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }

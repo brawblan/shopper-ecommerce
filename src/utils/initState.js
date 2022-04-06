@@ -31,14 +31,6 @@ export const INIT_CREATE_ACCOUNT = {
   zipcode: '',
 }
 
-export const INIT_CREDIT_CARD = {
-  card: '',
-  cardHolder: '',
-  expiryMonth: '',
-  expiryYear: '',
-  securityCode: '',
-}
-
 export const INIT_CHECKOUT_DISABLED = {
   signInBtn: true,
   signUpBtn: true,
@@ -49,26 +41,20 @@ export const INIT_CHECKOUT_DISABLED = {
 }
 
 export const INIT_SHIPPING_INFORMATION = {
-  firstName: 'J',
-  lastName: 'J',
-  address: '1 J J',
-  city: 'LKJ',
-  state: 'Alabama',
-  zipcode: '32154',
-  // firstName: '',
-  // lastName: '',
-  // address: '',
-  // city: '',
-  // state: '',
-  // zipcode: '',
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  state: '',
+  zipcode: '',
 }
 
 export const INIT_PAYMENT_INFORMATION = {
   card: '',
   cardHolder: '',
   expiry: {
-    month: '',
-    year: '',
+    expiryMonth: '',
+    expiryYear: '',
   },
   securityCode: '',
 }

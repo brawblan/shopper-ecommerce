@@ -537,8 +537,6 @@
   }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
   .App {
@@ -573,12 +571,6 @@ $large: 768px;
       border-radius: 1rem;
     }
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }
 
 @media (hover: none) {

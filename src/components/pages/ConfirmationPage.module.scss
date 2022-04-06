@@ -72,8 +72,6 @@
   }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
   .Container {
@@ -82,10 +80,4 @@ $large: 768px;
     top: 0;
     border-radius: 0;
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }

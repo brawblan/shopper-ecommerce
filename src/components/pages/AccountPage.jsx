@@ -5,21 +5,13 @@ import SignUp from '../organisms/SignUpScreen/SignUp'
 import Button from '../atoms/Button'
 
 const AccountPage = ({
-  updateNestedState,
-  updateState,
-  createAccount,
+  toggle,
+  toggleSwitch,
   isDisabled,
   signIn,
   usersArr,
-  data,
   handleSignInBtn,
   isSignedIn,
-  handleSignUp,
-  handleHomeScreenBtn,
-  updateDoubleNestedState,
-  updateSimplyNestedState,
-  toggle,
-  toggleSwitch,
   handleSignOut,
   shippingInformation
 }) => {
