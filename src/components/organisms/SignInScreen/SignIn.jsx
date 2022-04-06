@@ -205,7 +205,7 @@ class SignIn extends Component {
                       error={!!item.error.length}
                     />
                     <PasswordEye
-                      style={style.Checkbox}
+                      style={`${style.Checkbox} ${!!item.error.length && style.Error}`}
                       onClick={canSeePassword}
                       fill={this.state.fill}
                     />

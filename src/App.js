@@ -384,8 +384,9 @@ class App extends Component {
             isLoading={isLoading}
           />
         )}
-        {/*ProductDetailsPage*/}
-        {/* {!display.productPage && <ProductPage data={'Hello World'} />} */}
+
+        {/* Loading Spinner */}
+        {isLoading && <div className="ldsRoller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
 
         {/*AccountPage*/}
         {!display.accountPage.length && (

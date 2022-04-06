@@ -216,6 +216,7 @@ class SignUp extends Component {
         label: 'First Name *',
         value: firstName.value,
         error: firstName.error,
+        touched: firstName.touched
       },
       {
         type: 'text',
@@ -223,6 +224,7 @@ class SignUp extends Component {
         label: 'Last Name *',
         value: lastName.value,
         error: lastName.error,
+        touched: lastName.touched
       },
       {
         type: 'password',
@@ -230,6 +232,7 @@ class SignUp extends Component {
         label: 'Create Password *',
         value: password.value,
         error: password.error,
+        touched: password.touched,
         svg: true,
       },
       {
@@ -238,6 +241,7 @@ class SignUp extends Component {
         label: 'Confirm Password *',
         value: confirmPassword.value,
         error: confirmPassword.error,
+        touched: confirmPassword.touched
       },
       {
         type: 'text',
@@ -245,6 +249,7 @@ class SignUp extends Component {
         label: 'Your E-Mail Address *',
         value: email.value,
         error: email.error,
+        touched: email.touched
       },
       {
         type: 'text',
@@ -252,6 +257,7 @@ class SignUp extends Component {
         label: 'City *',
         value: city.value,
         error: city.error,
+        touched: city.touched
       },
       {
         type: 'select',
@@ -259,6 +265,7 @@ class SignUp extends Component {
         label: 'State *',
         value: state.value,
         error: state.error,
+        touched: state.touched
       },
       {
         type: 'number',
@@ -266,6 +273,7 @@ class SignUp extends Component {
         label: 'Zipcode *',
         value: zipcode.value,
         error: zipcode.error,
+        touched: zipcode.touched
       },
     ]
 
@@ -309,10 +317,12 @@ class SignUp extends Component {
                     }
                     onChange={handleChange}
                     onBlur={handleChange}
-                    autoComplete='none'
-                  />
-                ) : (
-                  <>
+                    autoComplete='off'
+                    success={!item.error.length && item.touched}
+                    error={!!item.error.length}
+                    />
+                    ) : (
+                      <>
                     <Input
                       className={style.InputBox}
                       type={item.type}
@@ -322,9 +332,11 @@ class SignUp extends Component {
                       onChange={handleChange}
                       onBlur={handleChange}
                       autoComplete='off'
-                    />
+                      success={!item.error.length && item.touched}
+                      error={!!item.error.length}
+                      />
                     <PasswordEye
-                      style={style.Checkbox}
+                      style={`${style.Checkbox} ${!!item.error.length && style.Error}`}
                       onClick={canSeePassword}
                       fill={this.state.fill}
                     />
