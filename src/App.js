@@ -178,20 +178,17 @@ class App extends Component {
     this.setState((prevState) => ({
       ...prevState,
       toggleSignIn: true,
+      productCardDisplay: false,
+      cartDisplay: false,
+      shippingDisplay: false,
+      paymentDisplay: false,
+      confirmationDisplay: false,
+      isDisabled: INIT_CHECKOUT_DISABLED,
       display: INIT_DISPLAY,
       navBarActiveButton: INIT_NAVBAR,
-      paymentInfo: INIT_PAYMENT_INFORMATION,
-      isDisabled: INIT_CHECKOUT_DISABLED,
-      signIn: INIT_SIGN_IN_STATE,
-      productSelected: [],
       cart: [],
       cartItems: [],
       cartPriceInfo: {},
-      cartDisplay: false,
-      shippingDisplay: false,
-      productCardDisplay: false,
-      paymentDisplay: false,
-      confirmationDisplay: false,
     }))
   }
 
