@@ -10,7 +10,6 @@ class SignUp extends Component {
   state = {
     fill: 'grey',
     nothingDisplay: true,
-    formHasErrors: true,
     newUserInfo: {
       firstName: {
         value: '',
@@ -162,9 +161,10 @@ class SignUp extends Component {
       users,
       isDisabled,
       toggleSwitch,
+      handleSignInBtn
     } = this.props
 
-    const {newUserInfo, formHasErrors} = this.state
+    const {newUserInfo} = this.state
     const {firstName, lastName, password, confirmPassword, email, city, state, zipcode} = newUserInfo
 
     const canSeePassword = () => {
@@ -206,7 +206,8 @@ class SignUp extends Component {
                     !password.error.length &&
                     !email.error.length &&
                     !zipcode.error.length
-      this.setState({formHasErrors: !noErrors})
+      
+      return noErrors
     }
 
     const createAccountInputs = [
@@ -280,12 +281,13 @@ class SignUp extends Component {
     const onCreateAccount = (e) => {
       e.preventDefault()
       
-      checkForErrors({firstName, lastName, password, confirmPassword, email, city, state, zipcode})
+      const formHasErrors = checkForErrors(newUserInfo)
 
-      if (!formHasErrors) {
-        const newUser = CreateAccountService.createUserObject({firstName, lastName, password, confirmPassword, email, city, state, zipcode})
-        this.props.handleSignInBtn('homepageScreen', [newUser])
+      if(!formHasErrors) {       
+        return
       }
+        const newUser = CreateAccountService.createUserObject({firstName, lastName, password, confirmPassword, email, city, state, zipcode})
+        handleSignInBtn('homepageScreen', [newUser])
     }
 
     return (

@@ -21,7 +21,6 @@ export class SignInService {
 
   static getUser = (usersArr, username) => {
     return usersArr.filter((user) => {
-      console.log(user.username, username)
       return user.username === username
     })
   }

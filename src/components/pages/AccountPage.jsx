@@ -40,12 +40,13 @@ const AccountPage = ({
                 users={signIn}
                 isDisabled={isDisabled}
                 onClick={handleSignInBtn}
-              />
+                />
                 ) : (
-              <SignUp
-                users={signIn}
-                isDisabled={isDisabled}
-                toggleSwitch={toggleSwitch}    
+                  <SignUp
+                  users={signIn}
+                  isDisabled={isDisabled}
+                  toggleSwitch={toggleSwitch}    
+                  handleSignInBtn={handleSignInBtn}
               />
             )}
           </>
