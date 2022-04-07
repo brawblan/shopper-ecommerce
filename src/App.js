@@ -182,6 +182,7 @@ class App extends Component {
       navBarActiveButton: INIT_NAVBAR,
       paymentInfo: INIT_PAYMENT_INFORMATION,
       isDisabled: INIT_CHECKOUT_DISABLED,
+      signIn: INIT_SIGN_IN_STATE,
       productSelected: [],
       cart: [],
       cartItems: [],
