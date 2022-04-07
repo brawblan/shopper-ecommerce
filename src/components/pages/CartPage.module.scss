@@ -1,31 +1,89 @@
 @import 'src/defaults';
 
-.Container {
+.CartContainer {
+  display: flex;
+  flex-direction: column;
   width: 50vw;
   height: 80vh;
   position: fixed;
+  margin: auto;
   top: 120px;
-  right: 0;
   background: $white;
   z-index: 20;
   border-radius: 1rem;
-  @include center();
-  flex-direction: column;
+  box-shadow: 1px 1px 10px #51b1a6;
+  padding: 1rem 0.75rem;
+
+  .HeaderContainer {
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .ExitButton {
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+
+      svg {
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+    .ExitButton:hover {
+      svg {
+        transform: rotate(225deg);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .ItemContainer {
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+    min-height: 8rem;
+    background: $white;
+    z-index: 20;
+    border-radius: 1rem;
+    overflow: scroll;
+    padding: 0 0.75rem;
+  }
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
+$xlarge: 1024px;
+@media (max-width: $xlarge) {
+  .CartContainer {
+    flex-direction: column;
+    border-radius: none;
+    box-shadow: none;
+
+    .Container {
+      .ItemContainer {
+        margin: 0 auto;
+        max-height: 100%;
+      }
+
+      .InfoContainer {
+        position: absolute;
+        bottom: 1rem;
+        left: calc(50% - 108px);
+      }
+    }
+  }
+}
+
 @media (max-width: $large) {
-  .Container {
+  .CartContainer {
     width: 100vw;
     height: calc(100vh - 100px);
     top: 0;
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }

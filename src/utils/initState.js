@@ -27,16 +27,8 @@ export const INIT_CREATE_ACCOUNT = {
   password: '',
   confirmPassword: '',
   firstName: '',
-  surname: '',
-  postcode: '',
-}
-
-export const INIT_CREDIT_CARD = {
-  card: '',
-  cardHolder: '',
-  expiryMonth: '',
-  expiryYear: '',
-  securityCode: '',
+  lastName: '',
+  zipcode: '',
 }
 
 export const INIT_CHECKOUT_DISABLED = {
@@ -46,4 +38,23 @@ export const INIT_CHECKOUT_DISABLED = {
   promoCodeBtn: false,
   shippingCheckout: true,
   paymentCheckout: true,
+}
+
+export const INIT_SHIPPING_INFORMATION = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  city: '',
+  state: '',
+  zipcode: '',
+}
+
+export const INIT_PAYMENT_INFORMATION = {
+  card: '',
+  cardHolder: '',
+  expiry: {
+    expiryMonth: '',
+    expiryYear: '',
+  },
+  securityCode: '',
 }

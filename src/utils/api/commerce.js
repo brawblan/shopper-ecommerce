@@ -1,11 +1,14 @@
 const COMMERCE_URL = 'https://api.chec.io/v1/products'
+const key = process.env.REACT_APP_CHEC_PUBLIC_KEY
 const apiHeaders = {
   'Content-Type': 'application/json',
-  'X-Authorization': 'pk_test_33918c53bbd1ba27f0befe0a2e5370ecbedf6d87c3913',
+  'X-Authorization': key,
+  'Access-Control-Allow-Origin': '*'
 }
 
 class CommerceAPI {
   async fetchCommerceApiData() {
+    localStorage.clear()
     return new Promise(async (success, failure) => {
       try {
         const res = await fetch(`${COMMERCE_URL}`, {
@@ -14,6 +17,7 @@ class CommerceAPI {
         if (res.ok) {
           const json = await res.json()
           const data = json.data.map((item) => {
+
             return {
               id: item.id,
               desc: item.description,

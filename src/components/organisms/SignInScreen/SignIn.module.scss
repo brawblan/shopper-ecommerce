@@ -9,8 +9,10 @@
 
   .SignUpForm {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 1rem;
   }
 
@@ -32,11 +34,16 @@
     }
     .Checkbox {
       position: absolute;
-      top: 52px;
-      right: 44px;
+      top: 47%;
+      right: 16%;
     }
-    input[type=checkbox] {
+    input[type='checkbox'] {
       display: none;
+    }
+
+    .Error {
+      top: 41%;
+      right: 17%;
     }
 
     input {

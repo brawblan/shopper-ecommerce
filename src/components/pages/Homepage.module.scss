@@ -1,5 +1,10 @@
 @import '/src/defaults';
 
+.Container.blurred {
+  filter: blur(2px);
+  pointer-events: none;
+}
+
 .Container {
   width: 100%;
   height: 100%;
@@ -14,6 +19,14 @@
     background-position: bottom;
     border-radius: 1rem;
     position: relative;
+  }
+
+  .SearchInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
   }
 
   .ProductContainer {
@@ -39,11 +52,8 @@
       }
     }
   }
-
 }
 
-$small: 375px;
-$medium: 425px;
 $large: 768px;
 @media (max-width: $large) {
   .Container {
@@ -57,10 +67,4 @@ $large: 768px;
       }
     }
   }
-}
-
-@media (max-width: $medium) {
-}
-
-@media (max-width: $small) {
 }

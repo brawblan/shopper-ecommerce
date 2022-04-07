@@ -1,19 +1,154 @@
 import React, { Component } from 'react'
-import { INIT_CREATE_ACCOUNT } from '../../../utils/initState'
-import { checkPasswordMatch } from '../../../utils/createAccountValidations'
 import style from './SignUp.module.scss'
 import PasswordEye from '../../assets/PasswordEye'
 import Button from '../../atoms/Button'
 import Input from '../../molecules/Input'
+import {ErrorMessage} from '../../../utils/error-message.class.js'
+import {CreateAccountService} from '../../../services/create-account-service/create-account.service'
 
 class SignUp extends Component {
-  emailError
-  constructor(props) {
-    super(props)
-    this.state = {
-      newUserInfo: INIT_CREATE_ACCOUNT,
-      fill: 'grey',
-      nothingDisplay: true,
+  state = {
+    fill: 'grey',
+    nothingDisplay: true,
+    newUserInfo: {
+      firstName: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              firstName: {
+                ...prevState.newUserInfo.firstName,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      lastName: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              lastName: {
+                ...prevState.newUserInfo.lastName,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      password: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              password: {
+                ...prevState.newUserInfo.password,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      confirmPassword: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              confirmPassword: {
+                ...prevState.newUserInfo.confirmPassword,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      email: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              email: {
+                ...prevState.newUserInfo.email,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      city: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              city: {
+                ...prevState.newUserInfo.city,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      state: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          this.setState((prevState) => ({
+            newUserInfo: {
+              ...prevState.newUserInfo,
+              state: {
+                ...prevState.newUserInfo.state,
+                value: input,
+                touched: true
+              }
+            }
+          }))
+        },
+        error: [],
+      },
+      zipcode: {
+        value: '',
+        touched: false,
+        onUpdate: (input) => {
+          if(input.length <= 5) {
+            this.setState((prevState) => ({
+              newUserInfo: {
+                ...prevState.newUserInfo,
+                zipcode: {
+                  ...prevState.newUserInfo.zipcode,
+                  value: input,
+                  touched: true
+                }
+              }
+            }))
+          }
+        },
+        error: [],
+      },
     }
   }
 
@@ -22,20 +157,20 @@ class SignUp extends Component {
   }
 
   render() {
-    const {
-      handleSignUp,
-      createAccount,
-      error,
+    const {      
       users,
       isDisabled,
-      updateNestedState,
-      updateDoubleNestedState,
       toggleSwitch,
+      handleSignInBtn
     } = this.props
 
+    const {newUserInfo} = this.state
+    const {firstName, lastName, password, confirmPassword, email, city, state, zipcode} = newUserInfo
+
     const canSeePassword = () => {
-      const x = document.getElementById('password')
-      const y = document.getElementById('confirmPassword')
+      const x = document.querySelector('input[name="password"]')
+      const y = document.querySelector('input[name="confirmPassword"]')
+
       if (x.type === 'password') {
         x.type = 'text'
         y.type = 'text'
@@ -51,13 +186,28 @@ class SignUp extends Component {
     }
 
     const handleChange = ({ target: { name, value } }) => {
-      if (name !== 'postcode') {
-        updateNestedState('createAccount', name, value)
-      } else if (name === 'postcode') {
-        if (value.length <= 5) {
-          updateNestedState('createAccount', name, value)
-        }
-      }
+      newUserInfo[name].onUpdate(value)
+    }
+
+    const checkForErrors = (request) => {
+      const {firstName, lastName, password, confirmPassword, email, zipcode} = request
+
+      firstName.error = CreateAccountService.validateName(firstName.value, 'first name')
+      lastName.error = CreateAccountService.validateName(lastName.value, 'last name')
+      password.error = CreateAccountService.validatePassword(password.value, true)
+      confirmPassword.error = CreateAccountService.validatePassword(password.value, false, confirmPassword.value)
+      email.error = CreateAccountService.validateEmail(email.value)
+      city.error = CreateAccountService.validateName(city.value, 'city')
+      state.error = CreateAccountService.validateName(state.value, 'state')
+      zipcode.error = (zipcode.value > 0 && zipcode.value < 99999) ? [] : [ErrorMessage.zipcodeError]
+      
+      let noErrors = !firstName.error.length && 
+                    !lastName.error.length &&
+                    !password.error.length &&
+                    !email.error.length &&
+                    !zipcode.error.length
+      
+      return noErrors
     }
 
     const createAccountInputs = [
@@ -65,65 +215,79 @@ class SignUp extends Component {
         type: 'text',
         id: 'firstName',
         label: 'First Name *',
-        error: error.firstNameError,
-        value: createAccount.firstName,
+        value: firstName.value,
+        error: firstName.error,
+        touched: firstName.touched
       },
       {
         type: 'text',
         id: 'lastName',
         label: 'Last Name *',
-        error: error.lastNameError,
-        value: createAccount.lastName,
+        value: lastName.value,
+        error: lastName.error,
+        touched: lastName.touched
       },
       {
         type: 'password',
         id: 'password',
         label: 'Create Password *',
+        value: password.value,
+        error: password.error,
+        touched: password.touched,
         svg: true,
-        error: error.passwordError,
-        value: createAccount.password,
       },
       {
         type: 'password',
         id: 'confirmPassword',
         label: 'Confirm Password *',
-        error: checkPasswordMatch(
-          createAccount.password,
-          createAccount.confirmPassword,
-        ),
-        value: createAccount.confirmPassword,
+        value: confirmPassword.value,
+        error: confirmPassword.error,
+        touched: confirmPassword.touched
       },
       {
         type: 'text',
         id: 'email',
         label: 'Your E-Mail Address *',
-        error: error.emailError,
-        value: createAccount.email,
+        value: email.value,
+        error: email.error,
+        touched: email.touched
+      },
+      {
+        type: 'text',
+        id: 'city',
+        label: 'City *',
+        value: city.value,
+        error: city.error,
+        touched: city.touched
+      },
+      {
+        type: 'select',
+        id: 'state',
+        label: 'State *',
+        value: state.value,
+        error: state.error,
+        touched: state.touched
       },
       {
         type: 'number',
-        id: 'postcode',
+        id: 'zipcode',
         label: 'Zipcode *',
-        value: createAccount.postcode,
-      },
-      {
-        type: 'submit',
-        id: 'submit',
-        value: 'Create',
+        value: zipcode.value,
+        error: zipcode.error,
+        touched: zipcode.touched
       },
     ]
 
     const onCreateAccount = (e) => {
       e.preventDefault()
-      updateDoubleNestedState(
-        'usersArr',
-        'username',
-        createAccount.email,
-        'password',
-        createAccount.password,
-        true,
-      )
-      this.props.onClick('homepageScreen')
+      
+      const formHasErrors = checkForErrors(newUserInfo)
+
+      if(!formHasErrors) {       
+        return
+      }
+        const newUser = CreateAccountService.createUserObject({firstName, lastName, password, confirmPassword, email, city, state, zipcode})
+        handleSignInBtn('homepageScreen', [newUser])
     }
 
     return (
@@ -131,7 +295,7 @@ class SignUp extends Component {
         className={style.SignUpContainer}
         style={{ display: users.signedIn }}
       >
-        <form className={style.SignUpForm} onSubmit={onCreateAccount}>
+        <form className={style.SignUpForm}>
           {createAccountInputs.map((item) => (
             <div className={style.InputForm} key={item.id}>
               <label form={item.id}>{item.label}</label>
@@ -154,11 +318,13 @@ class SignUp extends Component {
                       item.type === 'submit' ? isDisabled.signUpBtn : false
                     }
                     onChange={handleChange}
-                    onBlur={handleSignUp}
-                    autoComplete='none'
-                  />
-                ) : (
-                  <>
+                    onBlur={handleChange}
+                    autoComplete='off'
+                    success={!item.error.length && item.touched}
+                    error={!!item.error.length}
+                    />
+                    ) : (
+                      <>
                     <Input
                       className={style.InputBox}
                       type={item.type}
@@ -166,11 +332,13 @@ class SignUp extends Component {
                       id={item.id}
                       name={item.id}
                       onChange={handleChange}
-                      onBlur={handleSignUp}
+                      onBlur={handleChange}
                       autoComplete='off'
-                    />
+                      success={!item.error.length && item.touched}
+                      error={!!item.error.length}
+                      />
                     <PasswordEye
-                      style={style.Checkbox}
+                      style={`${style.Checkbox} ${!!item.error.length && style.Error}`}
                       onClick={canSeePassword}
                       fill={this.state.fill}
                     />
@@ -179,8 +347,24 @@ class SignUp extends Component {
               </>
               <div className={style.Error}>{item.error}</div>
             </div>
-          ))}
+          ))}          
         </form>
+        <Button
+          text={'Create Account'}
+          disabled={
+            !(firstName.touched &&
+              lastName.touched &&
+              password.touched &&
+              confirmPassword.touched &&
+              email.touched &&
+              city.touched &&
+              state.touched &&
+              zipcode.touched  
+            )
+          }
+          type='submit'
+          onClick={onCreateAccount}
+        />
         <button onClick={this.addNothing} className={style.FacebookBtn}>
           sign up with Facebook
         </button>

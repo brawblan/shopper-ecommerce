@@ -1,0 +1,26 @@
+.InfoContainer {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  margin: 1rem auto;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 10px #51b1a6;
+  padding: 1rem 0.75rem;
+
+  button {
+    margin: 1rem auto 0;
+  }
+
+  .PriceContainer {
+    text-align: left;
+  }
+}
+
+$large: 768px;
+@media (max-width: $large) {
+  .InfoContainer {
+    position: absolute;
+    bottom: 1rem;
+    left: calc(50% - 108px);
+  }
+}
