@@ -76,10 +76,10 @@ class App extends Component {
         cartCheckout: false,
       },
       shippingInformation: user[0],
-      usersArr: {
+      usersArr: [
         ...prevState.usersArr,
-        [this.state.usersArr.length]: user[0]
-      }
+        user[0]
+      ]
     }))
   }
   handleSignOut = () => {
