@@ -1,8 +1,8 @@
 const COMMERCE_URL = 'https://api.chec.io/v1/products'
-const url = process.env.REACT_APP_CHEC_PUBLIC_KEY
+const key = process.env.REACT_APP_CHEC_PUBLIC_KEY
 const apiHeaders = {
   'Content-Type': 'application/json',
-  'X-Authorization': 'pk_test_33918c53bbd1ba27f0befe0a2e5370ecbedf6d87c3913',
+  'X-Authorization': key,
   'Access-Control-Allow-Origin': '*'
 }
 
