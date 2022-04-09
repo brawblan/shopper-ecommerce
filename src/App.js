@@ -88,6 +88,7 @@ class App extends Component {
       signIn: INIT_SIGN_IN_STATE,
       display: INIT_DISPLAY,
       isDisabled: INIT_CHECKOUT_DISABLED,
+      shippingInformation: INIT_SHIPPING_INFORMATION,
     }))
   }
   handlePageChange = (value) => {
