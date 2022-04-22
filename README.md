@@ -1,4 +1,5 @@
-# [Devslopes Web Academy: Module 11 Shopper App eCommerce API](https://bb-shopper-ecommerce.netlify.app){:title="Click to Visit the Raw page at Shopify"}{:target="_blank"}
+# [Devslopes Web Academy: Module 11 Shopper App eCommerce API](https://bb-shopper-ecommerce.netlify.app)
+%md <a href="https://www.google.com" target="_blank">Google</a>
 
 ## UI Created BY:
 This UI was found using the FIGMA community search.
