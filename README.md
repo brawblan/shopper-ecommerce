@@ -1,6 +1,6 @@
 # [Devslopes Web Academy: Module 11 Shopper App eCommerce API](https://bb-shopper-ecommerce.netlify.app)
 
-## UI Created BY:
+## UI Created By:
 This UI was found using the FIGMA community search.
 It was created by Harum Shidiqi. You can find more of his work on his [portfolio](https://nohan.studio/#intro)
 
